@@ -5,8 +5,8 @@
 
 <template>
 
-  <div>Hello World with tab</div>
-  <div>Hello World</div>
+  <div>Hello World by pratik</div>
+  <div>Hello World by pratik</div>
   <div>Added by pratik</div>
   <div>Yo pattu!!</div>
 </template>
