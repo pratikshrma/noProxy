@@ -6,7 +6,7 @@ import comp from '../src/Comp.vue'
 
 <template>
 
-  <div>Hello World  tab</div>
+  <div>Hello World pratik pratik</div>
   <div>Hello World yoyo</div>
 
   <div>Added by pratik</div>
