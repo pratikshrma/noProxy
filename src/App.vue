@@ -6,8 +6,9 @@ import comp from '../src/Comp.vue'
 
 <template>
 
-  <div>Hello World by pratik</div>
-  <div>Hello World by pratik</div>
+  <div>Hello World  tab</div>
+  <div>Hello World yoyo</div>
+
   <div>Added by pratik</div>
   <comp />
 <div>Yo pattu!!</div>
