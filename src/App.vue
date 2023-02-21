@@ -4,8 +4,10 @@ import comp from '../src/Comp.vue'
 
 <template>
 
-  <div>Hello tab</div>
-  <div>Hello World yoyo</div>
+
+  <div>Hello World pratik pratik</div>
+
+
 
   <div>Added by pratik</div>
   <comp />
