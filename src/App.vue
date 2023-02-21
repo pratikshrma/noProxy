@@ -4,5 +4,7 @@
 </script>
 
 <template>
-  <div>Hello World</div>
+
+  <div>Hello World with tab</div>
+
 </template>
