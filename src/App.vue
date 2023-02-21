@@ -5,4 +5,5 @@
 
 <template>
   <div>Hello World</div>
+  <div>Added by pratik</div>
 </template>
