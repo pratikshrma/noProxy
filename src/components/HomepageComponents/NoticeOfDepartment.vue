@@ -6,6 +6,7 @@
                 {{ notice.data }}
                 </li>
             </ul>
+    
     </div>
 </template>
 
