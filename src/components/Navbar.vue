@@ -1,9 +1,9 @@
 <template>
     <div class="Navbar">
-        <RouterLink to="/"><img src="assets/logo.svg" class="logo"></RouterLink>
+        <RouterLink to="/"><img src="/logo.svg" class="logo"></RouterLink>
         <div class="helpandsupport">
-        <span class="contactus">Help & support &nbsp <img src="assets/helo and support.svg" />&nbsp| </span> 
-        <span class="contactus">Contact us &nbsp <img src="assets/contactus.svg" />&nbsp</span>
+        <span class="contactus">Help & support &nbsp <img src="/support.svg" />&nbsp| </span> 
+        <span class="contactus">Contact us &nbsp <img src="/contactus.svg" />&nbsp</span>
     </div>
     </div>
     </template>

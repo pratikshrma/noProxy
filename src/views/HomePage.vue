@@ -17,7 +17,7 @@ import Notice from '../components/HomepageComponents/NoticeOfDepartment.vue'
 
 <style scoped>
 .homeTop{
-    background-image: url(assets/Homepage-Background.svg);
+    background-image: url(/Homepage-Background.svg);
     height:36.063rem;
     background-size: cover;
 }

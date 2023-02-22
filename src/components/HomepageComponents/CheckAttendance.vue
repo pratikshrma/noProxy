@@ -3,7 +3,7 @@
         <Span class="checkText">You can check your attendance here :</Span>
         <div class="DiffSemesters">
         <div class="semester" v-for="sem in sems" :key="sem.id">
-            <RouterLink  :to="{ name: 'attendance', params: { id: sem.name }}" class="routetoAttendence"><div class="icon"><img src="assets/Vector.svg"></div>
+            <RouterLink  :to="{ name: 'attendance', params: { id: sem.name }}" class="routetoAttendence"><div class="icon"><img src="/Vector.svg"></div>
             <span class="semText">{{ sem.name }}</span></RouterLink>
        
         </div>
