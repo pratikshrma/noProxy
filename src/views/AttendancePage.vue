@@ -1,34 +1,42 @@
 <script setup>
 import CollegeSubjects from "../components/Attendancepagecomponents/CollegeSubjects.vue"
 import { db } from '../components/firebase'
-import { collection, getDocs ,getDoc, where, query } from '@firebase/firestore';
-import { ref,watchEffect } from 'vue';
+import { collection, getDocs, getDoc, where, query } from '@firebase/firestore';
+import { ref, watchEffect } from 'vue';
 import router from '../router'
 import StudentCard from '../components/Attendancepagecomponents/StudentsCard.vue'
 
-const sessions = ref([]);
-const q =query(collection(db, "sessions"))
-getDocs(q).then((querySnapshot)=>{
- querySnapshot.forEach((doc) => {
-  sessions.value.push({id:doc.id,...doc.data()})
- })
+
+const semester = router.currentRoute.value.params.id;
+const sessions = ref([]); //Stores the Sessions
+const currentSession = ref("") //Store the current Session
+const year = ref() //Calculate the Year based on Semester selected in Home Page
+
+watchEffect(async () => {
+    const SnapshotSession = await getDocs(collection(db, "sessions"))
+    SnapshotSession.forEach((doc) => {
+        sessions.value.push({ id: doc.id, ...doc.data() })
+    })
+
+    const SnapshotCurrentSession = await getDocs(collection(db, "currentSession"))
+    SnapshotCurrentSession.forEach((doc) => {
+        currentSession.value = { id: doc.id, ...doc.data() }
+        const sessionYear = currentSession.value.current.split("-")
+        const sessionYearI = parseInt(sessionYear[0])
+        if (semester == '1' || semester == '2') {
+            year.value = sessionYearI
+        } else if (semester == '3' || semester == '4') {
+            year.value = sessionYearI - 1
+        } else {
+            year.value = sessionYearI - 2
+        }
+        console.log(year.value)
+    })
+
 })
 
-let currSession=ref("")
-const CS =collection(db, "currentSession")
-getDocs(CS).then((querySnapshot)=>{
- querySnapshot.forEach((doc) => {
-    currSession.value={id:doc.id,...doc.data()}
- })
-})
-let Year=ref()
-watchEffect(currSession,Year,()=>{
- Year = currSession.value.current.split("-")
-Year=Year[0]
-console.log(Year)
-})
 
- </script>
+</script>
 
 <template>
     <div id="AttendancePage">
@@ -38,15 +46,15 @@ console.log(Year)
             </select>
         </div>
         <CollegeSubjects />
-        <StudentCard v-if="Year" :year="Year"/> 
+        <StudentCard v-if="Year" :year="Year" />
     </div>
 </template>
 
 <style scoped>
-.designSelect{
-    margin:3rem 0 0 40rem ;
-    height:3rem;
-    width:40rem;
+.designSelect {
+    margin: 3rem 0 0 40rem;
+    height: 3rem;
+    width: 40rem;
     border-radius: 50px;
     border: 1px solid teal;
     background-color: #ddd;
