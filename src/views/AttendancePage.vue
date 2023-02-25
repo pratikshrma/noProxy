@@ -1,61 +1,43 @@
 <script setup>
-import { db } from '../components/FirebaseInit';
+import CollegeSubjects from "../components/Attendancepagecomponents/CollegeSubjects.vue"
+import { db } from '../components/firebase'
 import { collection, getDocs, where, query } from '@firebase/firestore';
 import { ref } from 'vue';
-import Months from "../components/Attendancepagecomponents/StudentsCard.vue"
 import router from '../router'
 
-const semester=router.currentRoute.value.params.id
-
-const subjects = ref([]);
-const q =query(collection(db, "Subject"), where("semester", "==",`${semester}`))
+const sessions = ref([]);
+const q =query(collection(db, "sessions"))
 getDocs(q).then((querySnapshot)=>{
  querySnapshot.forEach((doc) => {
-  subjects.value.push({id:doc.id,...doc.data()})
+  sessions.value.push({id:doc.id,...doc.data()})
  })
 })
 
 
-const getSubject=ref()
-const showMonths=(sub)=>{
-    getSubject.value=sub
-}
 </script>
 
 <template>
-
-    <div class="container">
-       <div @click="showMonths(subject.subject)" class="subjects" v-for="subject in subjects" :key="subject.id">
-        {{ subject.subject }}
-       </div>
+    <div id="AttendancePage">
+        <div class="selectYear">
+            <select class="designSelect">
+                <option class="sessionName" v-for="session in sessions" :key="session.id">{{ session.session }}</option>
+            </select>
+        </div>
+        <CollegeSubjects />
     </div>
-    <Months /> 
 </template>
 
 <style scoped>
-.container{
-    display: flex;
-    height: auto;
-    gap:4rem;
-    justify-content: space-evenly;
-    padding-top: 1rem;
-}
-.subjects{
-    height:5rem;
-    background-color: teal;
-    font-size: 20px;
-    padding:1rem 1rem;
+.designSelect{
+    margin:3rem 0 0 40rem ;
+    height:3rem;
+    width:40rem;
     border-radius: 50px;
-    color:white;
-    box-shadow: 1px 1px 4px teal;
-    border:1px solid white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.subjects:hover{
-    scale:1.1;
-    cursor: pointer;
-    transition:.2s ease-in-out;
+    border: 1px solid teal;
+    background-color: #ddd;
+    color: red;
+    padding: .5rem 1rem;
+    font-size: 15px;
+    text-align: center;
 }
 </style>

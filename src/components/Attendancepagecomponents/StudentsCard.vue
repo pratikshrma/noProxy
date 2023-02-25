@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { collection, getDocs,getDoc, where, query, doc } from '@firebase/firestore'
-import { db } from '../FirebaseInit';
+import { db } from '../firebase'
 import StudentAttendance from '../Attendancepagecomponents/StudentsCard.vue';
 import router from '../../router'
 

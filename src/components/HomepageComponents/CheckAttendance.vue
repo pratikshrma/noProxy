@@ -1,9 +1,9 @@
 <template>
     <div class="checkAttendance">
-        <Span class="checkText">You can check your attendance here :</Span>
+        <span class="checkText">You can check your attendance here :</span>
         <div class="DiffSemesters">
         <div class="semester" v-for="sem in sems" :key="sem.id">
-            <RouterLink  :to="`/attendance/${sem.id}`" class="routetoAttendence"><div class="icon"><img src="src/assets/Vector.svg"></div>
+            <RouterLink  :to="`/attendance/${sem.id}`" class="routetoAttendence"><div class="icon"><img src="public/Vector.svg"></div>
             <span class="semText">{{ sem.name }}</span></RouterLink>
        
         </div>

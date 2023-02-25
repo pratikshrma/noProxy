@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+
 import Navbar from '../components/Navbar.vue'
 import TitleComponent from '../components/HomepageComponents/TitleComponent.vue'
 import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vue'
