@@ -1,9 +1,10 @@
 <script setup>
 import CollegeSubjects from "../components/Attendancepagecomponents/CollegeSubjects.vue"
 import { db } from '../components/firebase'
-import { collection, getDocs, where, query } from '@firebase/firestore';
-import { ref } from 'vue';
+import { collection, getDocs ,getDoc, where, query } from '@firebase/firestore';
+import { ref,watchEffect } from 'vue';
 import router from '../router'
+import StudentCard from '../components/Attendancepagecomponents/StudentsCard.vue'
 
 const sessions = ref([]);
 const q =query(collection(db, "sessions"))
@@ -13,8 +14,21 @@ getDocs(q).then((querySnapshot)=>{
  })
 })
 
+let currSession=ref("")
+const CS =collection(db, "currentSession")
+getDocs(CS).then((querySnapshot)=>{
+ querySnapshot.forEach((doc) => {
+    currSession.value={id:doc.id,...doc.data()}
+ })
+})
+let Year=ref()
+watchEffect(currSession,Year,()=>{
+ Year = currSession.value.current.split("-")
+Year=Year[0]
+console.log(Year)
+})
 
-</script>
+ </script>
 
 <template>
     <div id="AttendancePage">
@@ -24,6 +38,7 @@ getDocs(q).then((querySnapshot)=>{
             </select>
         </div>
         <CollegeSubjects />
+        <StudentCard v-if="Year" :year="Year"/> 
     </div>
 </template>
 
