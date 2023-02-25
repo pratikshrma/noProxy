@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps} from 'vue';
 import { collection, getDocs,getDoc, where, query, doc } from '@firebase/firestore'
 import { db } from '../firebase'
 import StudentAttendance from '../Attendancepagecomponents/StudentsCard.vue';
@@ -7,19 +7,12 @@ import router from '../../router'
 
 const semester=router.currentRoute.value.params.id
 
-const currYear=ref()
-
-const docRef=doc(db,"currentSession","baHkyKq7v7T3bXnJKaUi")
-const docSnap= getDoc(docRef)
-if ((await docSnap).exists()) {
-  console.log("Document data:", docSnap.data());
-} else {
-  console.log("No such document!");
-}
-
-
+const props=defineProps({
+    year:String
+})
+console.log(props.value)
 const students= ref([]);
-const q =query(collection(db, "Students"), where("semester", "==",`${semester}`))
+const q =query(collection(db, "studens-2020"), where("enrollmentYear", "==",`${semester}`))
 getDocs(q).then((querySnapshot)=>{
  querySnapshot.forEach((doc) => {
   students.value.push({id:doc.id,...doc.data()})
@@ -39,7 +32,8 @@ else{
 
 <template>
     <div class="containr">
-        <div class="student" @click="ShowAtt(student.fid,index)" v-for="(student,index) in students" :key="index">
+        {{ year }}
+        <!-- <div class="student" @click="ShowAtt(student.fid,index)" v-for="(student,index) in students" :key="index">
             <div class="info">
                 <div class="image"></div>
                 <div class="details">
@@ -47,9 +41,9 @@ else{
                     <span class="rollno">Roll No. -{{ student.rollNo }}</span>
                     <span class="rollno">FingerID -{{ student.fid }}</span>
                 </div>
-            </div>
-            <StudentAttendance v-if="finger[index]" :FingerPrint="finger[index]" />
-        </div>
+            </div> -->
+            <!-- <StudentAttendance v-if="finger[index]" :FingerPrint="finger[index]" /> -->
+        <!-- </div> -->
     </div>
 </template>
 
