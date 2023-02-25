@@ -16,7 +16,7 @@ import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vu
 
 <style scoped>
 .homeTop{
-    background-image: url(src/assets/Homepage-Background.svg);
+    background-image: url(/Homepage-Background.svg);
     height:36.063rem;
     background-size: cover;
 }
