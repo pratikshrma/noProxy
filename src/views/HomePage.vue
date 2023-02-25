@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import TitleComponent from '../components/HomepageComponents/TitleComponent.vue'
 import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vue'
-import Notice from '../components/HomepageComponents/NoticeOfDepartment.vue'
+
 </script>
 
 <template>
@@ -12,7 +12,6 @@ import Notice from '../components/HomepageComponents/NoticeOfDepartment.vue'
 <TitleComponent />
 </div>
 <CheckAttendance />
-<Notice />
 </template>
 
 <style scoped>

@@ -3,7 +3,7 @@
         <Span class="checkText">You can check your attendance here :</Span>
         <div class="DiffSemesters">
         <div class="semester" v-for="sem in sems" :key="sem.id">
-            <RouterLink  :to="{ name: 'attendance', params: { id: sem.name }}" class="routetoAttendence"><div class="icon"><img src="src/assets/Vector.svg"></div>
+            <RouterLink  :to="`/attendance/${sem.id}`" class="routetoAttendence"><div class="icon"><img src="src/assets/Vector.svg"></div>
             <span class="semText">{{ sem.name }}</span></RouterLink>
        
         </div>
@@ -25,7 +25,7 @@ const sems=[
 
 <style  scoped>
 .checkAttendance{
-    padding: 1rem 1rem;
+    padding: 3rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,6 +71,8 @@ const sems=[
     color: teal;
 }
 .checkText{
+    padding: 1.5rem 0;
+    font-size: 22px;
     font-weight: bold;
     color:teal;
 }
