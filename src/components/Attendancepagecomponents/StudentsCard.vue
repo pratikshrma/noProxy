@@ -12,7 +12,6 @@ const props=defineProps({
     year:Number,
     subject:String
 })
-console.log(props.subject)
 const Year=props.year
 const students= ref([]);
 const q =query(collection(db,`students-${Year}`))
@@ -58,6 +57,7 @@ else{
         gap:2rem;
         flex-wrap: wrap;
         height: 25rem;
+        background-color: pink;
     }
     .student{
         background-color: teal;
