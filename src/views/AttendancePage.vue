@@ -1,12 +1,12 @@
 <script setup>
-import CollegeSubjects from "../components/Attendancepagecomponents/CollegeSubjects.vue"
 import { db } from '../components/firebase'
 import { collection, getDocs ,getDoc, where, query } from '@firebase/firestore';
-import { ref,watchEffect } from 'vue';
+import { ref,watchEffect,reactive } from 'vue';
 import router from '../router'
 import StudentCard from '../components/Attendancepagecomponents/StudentsCard.vue'
-import { async } from "@firebase/util";
+import { useSubjectStore } from "../stores/counter";
 
+const store=useSubjectStore()
 
 const semester = router.currentRoute.value.params.id;
 const sessions = ref([]); //Stores the Sessions
@@ -31,8 +31,9 @@ watchEffect(async () => {
         } else {
             year.value = sessionYearI - 2
         }
-        console.log(year.value)
     })
+})
+
 
 </script>
 
@@ -43,8 +44,15 @@ watchEffect(async () => {
                 <option class="sessionName" v-for="session in sessions" :key="session.id">{{ session.session }}</option>
             </select>
         </div>
-        <CollegeSubjects />
-        <StudentCard v-if="Year" :year="Year"/> 
+
+        <!-- subjects -->
+
+        <div class="CollegeSubjects">
+            <div @click="showSubject(subject.subject)" class="subjects" v-for="subject in store.subjects" :key="subject.id">
+        {{ subject.subject }}
+       </div>
+        </div>
+        <StudentCard v-if="year" :year="year" :subject="getSubjects"/> 
     </div>
 </template>
 
@@ -60,5 +68,30 @@ watchEffect(async () => {
     padding: .5rem 1rem;
     font-size: 15px;
     text-align: center;
+}
+.CollegeSubjects{
+    display: flex;
+    height: auto;
+    gap:4rem;
+    justify-content: space-evenly;
+    padding-top: 1rem;
+}
+.subjects{
+    height:5rem;
+    background-color: teal;
+    font-size: 20px;
+    padding:1rem 1rem;
+    border-radius: 50px;
+    color:white;
+    box-shadow: 1px 1px 4px teal;
+    border:1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.subjects:hover{
+    scale:1.1;
+    cursor: pointer;
+    transition:.2s ease-in-out;
 }
 </style>

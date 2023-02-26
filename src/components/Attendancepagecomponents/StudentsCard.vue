@@ -2,21 +2,20 @@
 import { ref, defineProps} from 'vue';
 import { collection, getDocs,getDoc, where, query, doc } from '@firebase/firestore'
 import { db } from '../firebase'
-import StudentAttendance from '../Attendancepagecomponents/StudentsCard.vue';
+import StudentAtt from '../Attendancepagecomponents/StudentAtt.vue'
 import router from '../../router'
 import { watch } from 'vue';
 
 const semester=router.currentRoute.value.params.id
 
 const props=defineProps({
-    Session:String
+    year:Number,
+    subject:String
 })
-
-let Year=props.Session
-Year=Year.split("-")
-Year=Year[0]
+console.log(props.subject)
+const Year=props.year
 const students= ref([]);
-const q =query(collection(db, "studens-2020"), where("enrollmentYear", "==",`${Year}`))
+const q =query(collection(db,`students-${Year}`))
 getDocs(q).then((querySnapshot)=>{
  querySnapshot.forEach((doc) => {
   students.value.push({id:doc.id,...doc.data()})
@@ -32,11 +31,12 @@ else{
     finger.value[index]=null
 }
 }
+
 </script>
 
 <template>
     <div class="containr">
-        <!-- <div class="student" @click="ShowAtt(student.fid,index)" v-for="(student,index) in students" :key="index">
+        <div class="student" @click="ShowAtt(student.fid,index)" v-for="(student,index) in students" :key="index">
             <div class="info">
                 <div class="image"></div>
                 <div class="details">
@@ -44,9 +44,9 @@ else{
                     <span class="rollno">Roll No. -{{ student.rollNo }}</span>
                     <span class="rollno">FingerID -{{ student.fid }}</span>
                 </div>
-            </div> -->
-            <!-- <StudentAttendance v-if="finger[index]" :FingerPrint="finger[index]" /> -->
-        <!-- </div> -->
+            </div>
+            <StudentAtt v-if="finger[index]" :FingerPrint="finger[index]"/>
+        </div>
     </div>
 </template>
 

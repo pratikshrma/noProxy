@@ -1,12 +1,18 @@
-import { ref, computed } from 'vue'
+
 import { defineStore } from 'pinia'
+import { db } from '../components/firebase'
+import { collection, getDocs, where, query } from '@firebase/firestore';
+import { ref } from 'vue';
+import router from '../router'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
-  }
-
-  return { count, doubleCount, increment }
+export const useSubjectStore = defineStore('subject', () => {
+  const semester=router.currentRoute.value.params.id
+  const subjects = ref([]);
+  const q =query(collection(db, "teachers"), where("semester", "==",`${semester}`))
+  getDocs(q).then((querySnapshot)=>{
+   querySnapshot.forEach((doc) => {
+    subjects.value.push({id:doc.id,...doc.data()})
+   })
+  })
+  return { subjects }
 })
