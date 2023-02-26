@@ -4,15 +4,19 @@ import { collection, getDocs,getDoc, where, query, doc } from '@firebase/firesto
 import { db } from '../firebase'
 import StudentAttendance from '../Attendancepagecomponents/StudentsCard.vue';
 import router from '../../router'
+import { watch } from 'vue';
 
 const semester=router.currentRoute.value.params.id
 
 const props=defineProps({
-    year:String
+    Session:String
 })
-console.log(props.value)
+
+let Year=props.Session
+Year=Year.split("-")
+Year=Year[0]
 const students= ref([]);
-const q =query(collection(db, "studens-2020"), where("enrollmentYear", "==",`${semester}`))
+const q =query(collection(db, "studens-2020"), where("enrollmentYear", "==",`${Year}`))
 getDocs(q).then((querySnapshot)=>{
  querySnapshot.forEach((doc) => {
   students.value.push({id:doc.id,...doc.data()})
@@ -32,7 +36,6 @@ else{
 
 <template>
     <div class="containr">
-        {{ year }}
         <!-- <div class="student" @click="ShowAtt(student.fid,index)" v-for="(student,index) in students" :key="index">
             <div class="info">
                 <div class="image"></div>

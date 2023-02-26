@@ -2,9 +2,10 @@
 import CollegeSubjects from "../components/Attendancepagecomponents/CollegeSubjects.vue"
 import { db } from '../components/firebase'
 import { collection, getDocs ,getDoc, where, query } from '@firebase/firestore';
-import { ref,watchEffect } from 'vue';
+import { ref , watch } from 'vue';
 import router from '../router'
 import StudentCard from '../components/Attendancepagecomponents/StudentsCard.vue'
+import { async } from "@firebase/util";
 
 const sessions = ref([]);
 const q =query(collection(db, "sessions"))
@@ -17,28 +18,23 @@ getDocs(q).then((querySnapshot)=>{
 let currSession=ref("")
 const CS =collection(db, "currentSession")
 getDocs(CS).then((querySnapshot)=>{
- querySnapshot.forEach((doc) => {
-    currSession.value={id:doc.id,...doc.data()}
+ querySnapshot.forEach( (doc) => {
+    currSession.value= doc.data().current
  })
 })
-let Year=ref()
-watchEffect(currSession,Year,()=>{
- Year = currSession.value.current.split("-")
-Year=Year[0]
-console.log(Year)
-})
+
 
  </script>
 
 <template>
-    <div id="AttendancePage">
+    <div  id="AttendancePage">
         <div class="selectYear">
             <select class="designSelect">
                 <option class="sessionName" v-for="session in sessions" :key="session.id">{{ session.session }}</option>
             </select>
         </div>
         <CollegeSubjects />
-        <StudentCard v-if="Year" :year="Year"/> 
+        <StudentCard v-if="currSession" :Session="currSession" /> 
     </div>
 </template>
 
