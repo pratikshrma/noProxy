@@ -1,7 +1,7 @@
 <script setup>
 import { db } from '../components/firebase'
 import { collection, getDocs ,getDoc, where, query } from '@firebase/firestore';
-import { ref,watchEffect,reactive } from 'vue';
+import { ref,watchEffect,watch } from 'vue';
 import router from '../router'
 import StudentCard from '../components/Attendancepagecomponents/StudentsCard.vue'
 import { useSubjectStore } from "../stores/counter";
@@ -34,7 +34,17 @@ watchEffect(async () => {
     })
 })
 
+let getSubjects=ref()
+const showSubject=(sub)=>{
+    console.log(sub)
+}
+// watch(getSubjects,(a,b)=>{
 
+// })
+
+// const showSubject=(sub)=>{
+//     getSubjects.value=sub
+// }
 </script>
 
 <template>
@@ -57,6 +67,9 @@ watchEffect(async () => {
 </template>
 
 <style scoped>
+#AttendancePage{
+    background-color: yellow;
+}
 .designSelect {
     margin: 3rem 0 0 40rem;
     height: 3rem;
@@ -75,6 +88,7 @@ watchEffect(async () => {
     gap:4rem;
     justify-content: space-evenly;
     padding-top: 1rem;
+    background-color: red;
 }
 .subjects{
     height:5rem;

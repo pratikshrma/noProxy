@@ -27,5 +27,7 @@ getDocs(q).then((querySnapshot)=>{
 </script>
 
 <style scoped>
-
+.outerBlock{
+    background-color: pink;
+}
 </style>
