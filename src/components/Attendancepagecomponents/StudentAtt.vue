@@ -38,6 +38,8 @@ watchEffect(async () => {
     })
 })
 
+const i = "hello"
+
 let present = "p"
 let absent = "a"
 
