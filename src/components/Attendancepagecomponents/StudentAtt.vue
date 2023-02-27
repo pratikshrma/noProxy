@@ -1,7 +1,7 @@
 <template>
     <div class="outerBlock">   
         <div v-for="Att in Attendance" :key="Att.id">
-            {{ Att.id }}
+            {{ Att.subject }}
         </div>
     </div>
 </template>

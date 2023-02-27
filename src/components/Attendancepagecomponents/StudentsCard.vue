@@ -34,7 +34,7 @@ else{
 </script>
 
 <template>
-    <div class="containr">
+    <div class="StudentCard">
         <div class="student" @click="ShowAtt(student.fid,index)" v-for="(student,index) in students" :key="index">
             <div class="info">
                 <div class="image"></div>
@@ -50,14 +50,13 @@ else{
 </template>
 
 <style scoped>
-    .containr{
+    .StudentCard{
         display: flex;
         flex-direction: column;
         padding: 2rem 2rem;
         gap:2rem;
         flex-wrap: wrap;
         height: 25rem;
-        background-color: pink;
     }
     .student{
         background-color: teal;
