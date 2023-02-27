@@ -34,6 +34,7 @@ watchEffect(async () => {
       year.value = sessionYearI - 2;
     }
   });
+
   // fetch Subjects
   const SubjectQuery = query(
     collection(db, "teachers"),
@@ -43,12 +44,13 @@ watchEffect(async () => {
   querySnapshotSubject.forEach((doc) => {
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
-
 })
+
 // fetch Students
+
 watch(year,async ()=>{
-  const StudenttQuery =query(collection(db,`students-${year.value}`))
-const querySnapshotStudents= await getDocs(StudenttQuery)
+  const StudenttQuery = query(collection(db,`students-${year.value}`))
+const querySnapshotStudents = await getDocs(StudenttQuery)
  querySnapshotStudents.forEach((doc) => {
   students.value.push({id:doc.id,...doc.data()})
  })
@@ -58,12 +60,13 @@ const querySnapshotStudents= await getDocs(StudenttQuery)
 
 let getSubjects = ref();
 
-const showSubject = (sub) => {
-  console.log(sub);
-};
-
+const showSubject = (sub,index) => {
+  getSubjects.value=sub
+}
 // show attendance component 
-
+watch(getSubjects,()=>{
+  finger.value=[""]
+})
 let finger=ref([])
 const ShowAtt=(Attendance,index)=>{
 if (!finger.value[index]){
@@ -119,16 +122,15 @@ else{
             <span class="rollno">FingerID -{{ student.fid }}</span>
           </div>
         </div>
-        <StudentAtt v-if="finger[index]" :FingerPrint="finger[index]" />
+        <StudentAtt v-if="finger[index] && getSubjects" 
+        :FingerPrint="finger[index]"
+        :subjects="getSubjects" />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-#AttendancePage {
-  background-color: yellow;
-}
 .designSelect {
   margin: 3rem 0 0 40rem;
   height: 3rem;
@@ -147,7 +149,7 @@ else{
   gap: 4rem;
   justify-content: space-evenly;
   padding-top: 1rem;
-  background-color: red;
+
 }
 .subjects {
   height: 5rem;
