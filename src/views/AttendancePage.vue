@@ -182,9 +182,9 @@ else{
   box-shadow: 1px 1px 4px teal;
   border: 1px solid white;
   height: auto;
-  width: 10rem;
+  width: 15rem;
   border-radius: 20px;
-  padding: 1rem 2rem;
+  padding:1rem 1rem;
 }
 .student:hover {
   scale: 1.1;
@@ -193,7 +193,7 @@ else{
 }
 .info {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 }
 .image {
@@ -206,6 +206,7 @@ else{
   display: flex;
   flex-direction: column;
   color: white;
+  margin-right: 5rem;
 }
 .name {
   font-weight: bolder;
