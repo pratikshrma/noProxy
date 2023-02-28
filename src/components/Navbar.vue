@@ -5,9 +5,9 @@
         <span class="contactus">Help & support &nbsp <img src="/support.svg" />&nbsp| </span> 
         <span class="contactus">Contact us &nbsp <img src="/contactus.svg" />&nbsp</span>
     </div>
-    </div>
     </template>
     
+
     <script setup>
    
     </script>

@@ -24,9 +24,9 @@ watchEffect(async () => {
     const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`))
     const querySnapshotAttendance = await getDocs(AttendanceQuery)
     querySnapshotAttendance.forEach((doc) => {
-        var timestamp=doc.data().time
-        var datetime=new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
-        const DateString=datetime.toLocaleDateString()
+        var timestamp = doc.data().time
+        var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
+        const DateString = datetime.toLocaleDateString()
         // var dta = {
         //     id: doc.id,
         //     ...doc.data()
@@ -35,8 +35,8 @@ watchEffect(async () => {
         //     ...dta,
         //     time: formatDate(dta.time)
         // }
-        
-        Attendance.value.push({ id: doc.id,date:DateString, ...doc.data() })
+
+        Attendance.value.push({ id: doc.id, date: DateString, ...doc.data() })
         // Attendance.value.push(dta)
     })
 })
@@ -63,13 +63,15 @@ let hello = "yo"
 <style scoped>
 .block {
     padding: 1rem 1rem;
-   
+
 }
-.attendance{
+
+.attendance {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
+
 .present {
     text-transform: uppercase;
     font-size: 20px;
@@ -90,4 +92,5 @@ let hello = "yo"
 .date {
     font-size: 15px;
     color: white;
-}</style>
+}
+</style>
