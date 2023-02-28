@@ -43,13 +43,15 @@ const i = "hello"
 let present = "p"
 let absent = "a"
 
+let hello = "yo"
+
 </script>
 
 <template>
     <div class="outerBlock">
         <div class="block" v-for="Att in Attendance" :key="Att.id">
             <div class="attendance">
-                <span class="date">{{ Att.time.seconds }}</span>
+                <span class="date">{{ Att.time }}</span>
                 <span v-if="Att.status == present" class="present">{{ Att.status }}</span>
                 <span v-if="Att.status == absent" class="absent">{{ Att.status }}</span>
             </div>
