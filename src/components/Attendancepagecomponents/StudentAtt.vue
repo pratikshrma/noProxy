@@ -44,6 +44,8 @@ watchEffect(async () => {
 let present = "p"
 let absent = "a"
 
+let hello = "yo"
+
 </script>
 
 <template>
