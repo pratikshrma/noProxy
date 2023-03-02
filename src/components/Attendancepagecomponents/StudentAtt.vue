@@ -1,9 +1,9 @@
 
 
 <script setup>
-import { defineProps } from 'vue';
+// import { defineProps } from 'vue';
 import { collection, getDocs, getDoc, where, query, doc } from '@firebase/firestore'
-import { db } from '../firebase'
+import { db } from '../../firebase'
 import { ref, watchEffect } from 'vue';
 import { async } from '@firebase/util';
 
