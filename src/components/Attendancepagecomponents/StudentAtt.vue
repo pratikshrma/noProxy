@@ -4,8 +4,8 @@
 // import { defineProps } from 'vue';
 import { collection, getDocs, getDoc, where, query, doc } from '@firebase/firestore'
 import { db } from '../../firebase'
-import { ref, watchEffect } from 'vue';
-import { async } from '@firebase/util';
+import { ref, watchEffect, computed } from 'vue';
+
 
 const Attendance = ref([])
 const props = defineProps({
@@ -14,33 +14,49 @@ const props = defineProps({
 })
 let SelectedSubject = props.subjects
 let fID = props.FingerPrint
-// function formatDate(date) {
-//     const formatDate = new Date(
-//         date.seconds * 1000 + date.nanoseconds / 1000000
-//     );
-//     return formatDate.toLocaleTimeString('en-us', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-// }
+var uniqueAttendence = computed(() => {
+    let result = [];
+    function presentInUniqueAttendence(value) {
+        for (let i = 0; i < result.length; i++) {
+            const e = result[i];
+            if (e.date === value.date) {
+                return true;
+            }
+        }
+        return false;
+    }
+    for (let i = 0; i < Attendance.value.length; i++) {
+        const a = Attendance.value[i];
+        const data = {
+            date: a.date,
+            status: a.status,
+        }
+        if (presentInUniqueAttendence(data) === false) {
+            result.push(data);
+        }
+    }
+    return result;
+});
+
 watchEffect(async () => {
-    const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`))
+    const AttendanceQuery = query(collection(db, "2022-2023"), where("month", "==", "february"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`))
     const querySnapshotAttendance = await getDocs(AttendanceQuery)
     querySnapshotAttendance.forEach((doc) => {
         var timestamp = doc.data().time
         var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
-        const DateString = datetime.toLocaleDateString()
-        // var dta = {
-        //     id: doc.id,
-        //     ...doc.data()
-        // }
-        // dta = {
-        //     ...dta,
-        //     time: formatDate(dta.time)
-        // }
-
-        Attendance.value.push({ id: doc.id, date: DateString, ...doc.data() })
-        // Attendance.value.push(dta)
+        const date = datetime.toLocaleDateString()
+        Attendance.value.push({
+            date: date,
+            status: doc.data().status
+        })
     })
-})
+    console.log(Attendance.value)
 
+
+
+
+    // const modAttendence= Attendance.amp...
+})
 let present = "p"
 let absent = "a"
 
@@ -50,7 +66,7 @@ let hello = "yo"
 
 <template>
     <div class="outerBlock">
-        <div class="block" v-for="Att in Attendance" :key="Att.id">
+        <div class="block" v-for="Att in uniqueAttendence" :key="Att.id">
             <div class="attendance">
                 <span class="date">{{ Att.date }}</span>
                 <span v-if="Att.status == present" class="present">{{ Att.status }}</span>
