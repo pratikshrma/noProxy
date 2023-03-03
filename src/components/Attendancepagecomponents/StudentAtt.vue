@@ -27,9 +27,8 @@ watchEffect(async () => {
             status: doc.data().status
         })
     })
-    console.log(Attendance.value)
-    // const modAttendence= Attendance.amp...
 })
+// const modAttendence= Attendance.amp...
 let present = "p"
 let absent = "a"
 
