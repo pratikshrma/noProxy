@@ -79,7 +79,7 @@ const ShowAtt = (Attendance, index) => {
 
 <template>
   <div id="AttendancePage">
-    <div class="selectYear">
+    <div class="selectYear">ShowAtt
       <select class="designSelect">
         <option class="sessionName" v-for="session in sessions" :key="session.id">
           {{ session.session }}
@@ -108,6 +108,7 @@ const ShowAtt = (Attendance, index) => {
           </div>
         </div>
         <StudentAtt v-if="finger[index] && getSubjects" :FingerPrint="finger[index]" :subjects="getSubjects" />
+        <p v-else>Please select a subject first</p>
       </div>
     </div>
   </div>
