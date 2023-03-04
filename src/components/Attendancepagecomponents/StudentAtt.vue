@@ -121,7 +121,7 @@ var uniqueAttendence = computed(() => {
 
 
 .date {
-    font-size: 15px;
+    font-size: 23px;
     color: white;
 }
 </style>

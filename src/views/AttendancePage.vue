@@ -98,20 +98,20 @@ const showMonths = (mon, index) => {
   let currentMon = designMon.value[index]
   for (let i = 0; i <= subjects.value.length - 1; i++) {
     if (designMon.value[i] == currentMon) {
-      currentMon.style.backgroundColor = "teal"
-      currentMon.style.border = "1px solid lavender"
-      currentMon.style.color = "lavender"
-      designMon.value[i].style.backgroundColor = "lavender"
-      designMon.value[i].style.color = "teal"
-      designMon.value[i].style.border = "1px solid teal"
-    }
-    else {
       currentMon.style.backgroundColor = "lavender"
       currentMon.style.border = "1px solid teal"
       currentMon.style.color = "teal"
       designMon.value[i].style.backgroundColor = "teal"
       designMon.value[i].style.color = "lavender"
       designMon.value[i].style.border = "1px solid lavender"
+    }
+    else {
+      currentMon.style.backgroundColor = "teal"
+      currentMon.style.border = "1px solid lavender"
+      currentMon.style.color = "lavender"
+      designMon.value[i].style.backgroundColor = "lavender"
+      designMon.value[i].style.color = "teal"
+      designMon.value[i].style.border = "1px solid teal"
     }
   }
 }
@@ -125,20 +125,14 @@ const showSubject = (sub, index) => {
   let currentSub = designSub.value[index]
   for (let i = 0; i <= subjects.value.length - 1; i++) {
     if (designSub.value[i] == currentSub) {
-      currentSub.style.backgroundColor = "teal"
-      currentSub.style.border = "1px solid lavender"
       currentSub.style.color = "lavender"
       designSub.value[i].style.backgroundColor = "lavender"
-      designSub.value[i].style.color = "teal"
-      designSub.value[i].style.border = "1px solid teal"
+      designSub.value[i].style.color = "black"
     }
     else {
-      // currentSub.style.backgroundColor = "lavender"
-      // currentSub.style.border = "1px solid teal"
-      // currentSub.style.color = "teal"
-      designSub.value[i].style.backgroundColor = "teal"
+      currentSub.style.color = "black"
+      designSub.value[i].style.backgroundColor = "transparent"
       designSub.value[i].style.color = "lavender"
-      designSub.value[i].style.border = "1px solid lavender"
     }
   }
 }
@@ -167,6 +161,7 @@ const ShowAtt = (Attendance, index) => {
     <div class="attendanceTop">
       <Navbar />
       <p class="pageName">attendance</p>
+      <p class="pleaseSelect">Please select a subject below:</p>
 
       <!-- subjects -->
 
@@ -182,8 +177,8 @@ const ShowAtt = (Attendance, index) => {
 
     <div class="Attendancebottom">
       <!-- months -->
-      <div class="CollegeSubjects">
-        <div ref="designMon" class="subjects" @click="showMonths(month.month, index)" v-for="(month, index) in months"
+      <div class="monthsSubjects">
+        <div ref="designMon" class="months" @click="showMonths(month.month, index)" v-for="(month, index) in months"
           :key="index">
           {{ month.month }}
         </div>
@@ -211,6 +206,16 @@ const ShowAtt = (Attendance, index) => {
 </template>
 
 <style scoped>
+* {
+  font-family: var(--font-face);
+}
+
+.pleaseSelect {
+  font-size: 30px;
+  font-family: var(--font-face);
+  color: lavender;
+}
+
 .attendanceTop {
   background-image: url(/AttendanceImage.svg);
   height: 36.063rem;
@@ -220,13 +225,32 @@ const ShowAtt = (Attendance, index) => {
   align-items: center;
 }
 
+.Attendancebottom {
+  margin-top: -5rem;
+  background-color: lavender;
+  border-top-left-radius: 80px;
+  border-top-right-radius: 80px;
+}
+
 .pageName {
   color: lavender;
-  font-size: 9rem;
+  font-size: 7rem;
+  font-weight: 500;
   text-transform: capitalize;
+  margin-top: 2rem;
 }
 
 .CollegeSubjects {
+  display: flex;
+  height: auto;
+  gap: 4rem;
+  justify-content: space-evenly;
+  padding-top: 1rem;
+  margin-top: 2rem;
+
+}
+
+.monthsSubjects {
   display: flex;
   height: auto;
   gap: 4rem;
@@ -237,13 +261,10 @@ const ShowAtt = (Attendance, index) => {
 
 .subjects {
   height: 5rem;
-  background-color: teal;
-  font-size: 20px;
-  padding: 1rem 1rem;
+  font-size: 25px;
+  padding: .5rem .5rem;
   border-radius: 50px;
   color: white;
-  box-shadow: 1px 1px 4px teal;
-  border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -257,13 +278,34 @@ const ShowAtt = (Attendance, index) => {
   transition: 0.2s ease-in-out;
 }
 
+.months {
+  height: 5rem;
+  font-size: 25px;
+  padding: .5rem .5rem;
+  border-radius: 50px;
+  color: teal;
+  border: 1px solid teal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20rem;
+  text-transform: capitalize;
+}
+
+.months:hover {
+  scale: 1.1;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+
 .StudentCard {
   display: flex;
   flex-direction: column;
-  padding: 2rem 2rem;
+  padding: 3rem 3rem;
   gap: 2rem;
   flex-wrap: wrap;
-  height: 25rem;
+  height: 15rem;
 }
 
 .student {
@@ -271,8 +313,8 @@ const ShowAtt = (Attendance, index) => {
   box-shadow: 1px 1px 4px teal;
   border: 1px solid white;
   height: auto;
-  width: 15rem;
-  border-radius: 20px;
+  width: 25rem;
+  border-radius: 40px;
   padding: 1rem 1rem;
 }
 
@@ -284,13 +326,12 @@ const ShowAtt = (Attendance, index) => {
 
 .info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
 .image {
-  height: 2rem;
-  width: 2rem;
+  height: 5rem;
+  width: 5rem;
   border-radius: 100px;
   background-color: lavender;
 }
@@ -299,14 +340,17 @@ const ShowAtt = (Attendance, index) => {
   display: flex;
   flex-direction: column;
   color: white;
-  margin-right: 5rem;
+  margin-left: 2rem;
+
 }
 
 .name {
   font-weight: bolder;
+  font-size: 30px;
 }
 
 .rollno {
-  font-size: 10px;
+  font-size: 16px;
+  font-weight: lighter;
 }
 </style>
