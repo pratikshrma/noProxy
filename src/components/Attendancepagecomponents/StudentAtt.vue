@@ -10,17 +10,18 @@ import { ref, watchEffect, computed } from 'vue';
 const Attendance = ref([])
 const props = defineProps({
     FingerPrint: String,
-    subjects: String
+    subjects: String,
+    months: String
 })
-let SelectedSubject = props.subjectsgetDoc
-
+let SelectedSubject = props.subjects
+let selectedMonths = props.months
 let fID = props.FingerPrint
 
 watchEffect(async () => {
-    const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`))
+    const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`),
+        where("month", "==", `${selectedMonths}`))
     const querySnapshotAttendance = await getDocs(AttendanceQuery)
     querySnapshotAttendance.forEach((doc) => {
-        console.log(doc.id)
         var timestamp = doc.data().time
         var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
         const date = datetime.toLocaleDateString()
@@ -83,8 +84,8 @@ var uniqueAttendence = computed(() => {
         <div class="block" v-for="Att in uniqueAttendence" :key="Att.id">
             <div class="attendance">
                 <span class="date">{{ Att.date }}</span>
-                <span v-if="Att.status == present" class="present">{{ Att.status }}</span>
-                <span v-if="Att.status == absent" class="absent">{{ Att.status }}</span>
+                <span class="present">{{ Att.status }}</span>
+
             </div>
         </div>
     </div>
