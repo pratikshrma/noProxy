@@ -53,6 +53,7 @@ var uniqueAttendence = computed(() => {
             result.push(data);
         }
     }
+    console.log(result)
     return result;
 
 
