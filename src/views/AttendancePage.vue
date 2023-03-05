@@ -73,6 +73,7 @@ watchEffect(async () => {
         ...doc.data()
       }
       getSubjects.value = data.subject
+      // console.log("triggered", getSubjects.value)
     }
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
