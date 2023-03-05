@@ -12,9 +12,11 @@ const currentSession = ref(""); //Store the current Session
 const year = ref(); //Calculate the Year based on Semester selected in Home Page
 const subjects = ref([]);
 const students = ref([]);
-const designSub = ref()
-const designMon = ref()
-const months = ref([])
+const designSub = ref();
+const designMon = ref();
+const months = ref([]);
+let getMonths = ref('');
+let getSubjects = ref('');
 
 
 
@@ -74,11 +76,19 @@ watchEffect(async () => {
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
   querySnapshotSubject.forEach((doc) => {
+    if (getSubjects.value === '') {
+      const data = {
+        ...doc.data()
+      }
+      getSubjects.value = data.subject
+      // console.log("triggered", getSubjects.value)
+    }
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
 })
 
 // fetch Students
+
 
 watch(year, async () => {
   const StudenttQuery = query(collection(db, `students-${year.value}`))
@@ -91,7 +101,6 @@ watch(year, async () => {
 
 //select month
 
-let getMonths = ref();
 
 const showMonths = (mon, index) => {
   getMonths.value = mon
@@ -118,7 +127,7 @@ const showMonths = (mon, index) => {
 
 // Select Subject
 
-let getSubjects = ref();
+// let getSubjects = ref();
 
 const showSubject = (sub, index) => {
   getSubjects.value = sub
