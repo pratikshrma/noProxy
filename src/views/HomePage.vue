@@ -8,16 +8,16 @@ import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vu
 
 <template>
     <div class="homeTop">
-<Navbar />
-<TitleComponent />
-</div>
-<CheckAttendance />
+        <Navbar />
+        <TitleComponent />
+    </div>
+    <CheckAttendance />
 </template>
 
 <style scoped>
-.homeTop{
-    background-image: url(/Homepage-Background.svg);
-    height:36.063rem;
+.homeTop {
+    background-image: url(/HomeImage.jpg);
+    height: 36.063rem;
     background-size: cover;
 }
 </style>

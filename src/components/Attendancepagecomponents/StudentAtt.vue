@@ -2,7 +2,7 @@
 
 <script setup>
 // import { defineProps } from 'vue';
-import { collection, getDocs, getDoc, where, query, doc } from '@firebase/firestore'
+import { collection, getDocs, where, query, orderBy } from '@firebase/firestore'
 import { db } from '../../firebase'
 import { ref, watchEffect, computed } from 'vue';
 
@@ -10,13 +10,31 @@ import { ref, watchEffect, computed } from 'vue';
 const Attendance = ref([])
 const props = defineProps({
     FingerPrint: String,
-    subjects: String
+    subjects: String,
+    months: String
 })
 let SelectedSubject = props.subjects
+let selectedMonths = props.months
 let fID = props.FingerPrint
+
+watchEffect(async () => {
+    const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`),
+        where("month", "==", `${selectedMonths}`))
+    const querySnapshotAttendance = await getDocs(AttendanceQuery)
+    querySnapshotAttendance.forEach((doc) => {
+        var timestamp = doc.data().time
+        var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
+        const date = datetime.toLocaleDateString()
+        Attendance.value.push({
+            date: date,
+            status: doc.data().status
+        })
+    })
+})
+// hello this is free fcomment
 var uniqueAttendence = computed(() => {
     let result = [];
-    function presentInUniqueAttendence(value) {
+    function presentInUniqueAtgetDoctendence(value) {
         for (let i = 0; i < result.length; i++) {
             const e = result[i];
             if (e.date === value.date) {
@@ -31,36 +49,34 @@ var uniqueAttendence = computed(() => {
             date: a.date,
             status: a.status,
         }
-        if (presentInUniqueAttendence(data) === false) {
+        if (presentInUniqueAtgetDoctendence(data) === false) {
             result.push(data);
         }
     }
     return result;
+
+
+    /*
+    latest date-> 15
+    attt=[]latest date-> 15
+    latest date-> 15
+    for(i=0;i<=date;i++){
+        if(presentinUniqueAttendence(i)){
+            attt.push({
+                date:date,
+                status:statupresentinUniqueAttendence
+            })
+        }else{
+            atttt.push({
+                date:date,
+                status:A
+            })
+        }
+    }
+    
+    
+    */
 });
-
-watchEffect(async () => {
-    const AttendanceQuery = query(collection(db, "2022-2023"), where("month", "==", "february"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`))
-    const querySnapshotAttendance = await getDocs(AttendanceQuery)
-    querySnapshotAttendance.forEach((doc) => {
-        var timestamp = doc.data().time
-        var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
-        const date = datetime.toLocaleDateString()
-        Attendance.value.push({
-            date: date,
-            status: doc.data().status
-        })
-    })
-    console.log(Attendance.value)
-
-
-
-
-    // const modAttendence= Attendance.amp...
-})
-let present = "p"
-let absent = "a"
-
-let hello = "yo"
 
 </script>
 
@@ -69,8 +85,8 @@ let hello = "yo"
         <div class="block" v-for="Att in uniqueAttendence" :key="Att.id">
             <div class="attendance">
                 <span class="date">{{ Att.date }}</span>
-                <span v-if="Att.status == present" class="present">{{ Att.status }}</span>
-                <span v-if="Att.status == absent" class="absent">{{ Att.status }}</span>
+                <span class="present">{{ Att.status }}</span>
+
             </div>
         </div>
     </div>
@@ -106,7 +122,7 @@ let hello = "yo"
 
 
 .date {
-    font-size: 15px;
+    font-size: 23px;
     color: white;
 }
 </style>

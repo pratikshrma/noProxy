@@ -1,4 +1,6 @@
 /* color palette from <https://github.com/vuejs/theme> */
+@import url('https://fonts.googleapis.com/css2?family=Signika&display=swap');
+
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
@@ -19,8 +21,10 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
-  --theme-color:lavender;
+  --theme-color: lavender;
   --theme-color2: #317874;
+  --font-face: 'Signika', sans-serif;
+
 }
 
 /* semantic color variables for this project */
@@ -37,7 +41,7 @@
 
   --section-gap: 160px; */
   margin: 0;
-  padding:0 0;
+  padding: 0 0;
 }
 
 body {
