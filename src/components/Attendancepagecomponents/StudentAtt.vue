@@ -7,7 +7,6 @@ import { db } from '../../firebase'
 import { ref, watchEffect, computed } from 'vue';
 
 
-const Attendance = ref([])
 const props = defineProps({
     FingerPrint: String,
     subjects: String,
@@ -16,77 +15,124 @@ const props = defineProps({
 let SelectedSubject = props.subjects
 let selectedMonths = props.months
 let fID = props.FingerPrint
+const Attendance = ref([])
+
 
 watchEffect(async () => {
+    //Fetching RAW Dates from from Firestore
+    let RawAttendance = []
     const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`),
-        where("month", "==", `${selectedMonths}`))
+        where("month", "==", `${selectedMonths}`), orderBy("time"))
     const querySnapshotAttendance = await getDocs(AttendanceQuery)
     querySnapshotAttendance.forEach((doc) => {
         var timestamp = doc.data().time
         var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
         const date = datetime.toLocaleDateString()
-        Attendance.value.push({
+        RawAttendance.push({
             date: date,
             status: doc.data().status
         })
     })
-})
-// hello this is free fcomment
-var uniqueAttendence = computed(() => {
-    let result = [];
-    function presentInUniqueAtgetDoctendence(value) {
-        for (let i = 0; i < result.length; i++) {
-            const e = result[i];
+    if (RawAttendance.length < 1) {
+        return;
+    }
+
+    //Filtering Unique Dates
+    let uniqueAttendence = []
+    function presentInUniqueAttendance(value) {
+        for (let i = 0; i < uniqueAttendence.length; i++) {
+            const e = uniqueAttendence[i];
             if (e.date === value.date) {
-                return true;
+                return e;
             }
         }
         return false;
     }
-    for (let i = 0; i < Attendance.value.length; i++) {
-        const a = Attendance.value[i];
+    for (let i = 0; i < RawAttendance.length; i++) {
+        const a = RawAttendance[i];
         const data = {
             date: a.date,
             status: a.status,
         }
-        if (presentInUniqueAtgetDoctendence(data) === false) {
-            result.push(data);
+        if (presentInUniqueAttendance(data) === false) {
+            uniqueAttendence.push(data);
         }
     }
-    return result;
+
+    const [date, month, year] = uniqueAttendence[uniqueAttendence.length - 1].date.split('/')
+
+    //Sunday Logic
+    function getAllSundays(m, y) {
+        var year = y;
+        var month = m - 1;
+        var sundays = [];
+        for (var i = 0; i <= new Date(year, month, 0).getDate(); i++) {
+            var date = new Date(year, month, i);
+            if (date.getDay() == 0) {
+                sundays.push(date.getDate());
+            }
+        };
+        return sundays
+    }
+    function isASunday(date) {
+        for (let i = 0; i < sundays.length; i++) {
+            const element = sundays[i];
+            if (element == date) {
+                return true;
+            }
+        }
+        return false
+    }
+    const sundays = getAllSundays(month, year)
+    let lastDate;
+    const currentMonth = new Date().getMonth();
+    if (month == currentMonth + 1) {
+        lastDate = new Date().getDate()
+    } else {
+        lastDate = new Date(year, month, 0).getDate();
+    }
 
 
+    //we can also do this with map will probably do that later
+
+    //constructing the final Attendence array
     /*
-    latest date-> 15
-    attt=[]latest date-> 15
-    latest date-> 15
-    for(i=0;i<=date;i++){
-        if(presentinUniqueAttendence(i)){
-            attt.push({
-                date:date,
-                status:statupresentinUniqueAttendence
-            })
-        }else{
-            atttt.push({
-                date:date,
-                status:A
-            })
+        P -> Present
+        A -> Absent
+        S -> Sunday
+        L -> Leave
+    */
+    for (let i = 1; i <= lastDate; i++) {
+        let Date = `${i}/${month}/${year}`
+        let result = presentInUniqueAttendance({ date: Date })
+        if (result) {
+            Attendance.value.push(result)
+        } else {
+            if (isASunday(i)) {
+                Attendance.value.push({
+                    date: Date,
+                    status: 'S'
+                })
+            } else {
+                Attendance.value.push({
+                    date: Date,
+                    status: 'A'
+                })
+            }
         }
     }
-    
-    
-    */
-});
+
+})
 
 </script>
 
 <template>
     <div class="outerBlock">
-        <div class="block" v-for="Att in uniqueAttendence" :key="Att.id">
+        <div class="block" v-for="Att in Attendance" :key="Att.id">
             <div class="attendance">
                 <span class="date">{{ Att.date }}</span>
-                <span class="present">{{ Att.status }}</span>
-
+                <span class="present" v-if="Att.status != 'S'">{{ Att.status }}</span>
+                <span class="sunday" v-else>"It's Sunday Bro"</span>
             </div>
         </div>
     </div>

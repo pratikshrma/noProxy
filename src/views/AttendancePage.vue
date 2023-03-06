@@ -15,8 +15,6 @@ const students = ref([]);
 const designSub = ref()
 const designMon = ref()
 const months = ref([])
-let getMonths = ref();
-let getSubjects = ref();
 
 
 
@@ -44,28 +42,22 @@ watchEffect(async () => {
   });
 
   //fetch months
-
-
+  let sessionType = ''
   if (semester == 1 || semester == 3 || semester == 5) {
-    const monthQuery = query(
-      collection(db, "months-2022-2023"),
-      where("sessionType", "==", "S")
-    );
-    const querySnapshotMonth = await getDocs(monthQuery);
-    querySnapshotMonth.forEach((doc) => {
-      months.value.push({ id: doc.id, ...doc.data() });
-    });
+    sessionType = 'S'
   }
   else if (semester == 2 || semester == 4 || semester == 6) {
-    const monthQuery = query(
-      collection(db, "months-2022-2023"),
-      where("sessionType", "==", "E")
-    );
-    const querySnapshotMonth = await getDocs(monthQuery);
-    querySnapshotMonth.forEach((doc) => {
-      months.value.push({ id: doc.id, ...doc.data() });
-    });
+    sessionType = 'E'
   }
+  const monthQuery = query(
+    collection(db, "months-2022-2023"),
+    where("sessionType", "==", sessionType)
+  );
+  const querySnapshotMonth = await getDocs(monthQuery);
+  querySnapshotMonth.forEach((doc) => {
+    months.value.push({ id: doc.id, ...doc.data() });
+  });
+
 
   // fetch Subjects
 
@@ -76,6 +68,12 @@ watchEffect(async () => {
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
   querySnapshotSubject.forEach((doc) => {
+    if (getSubjects.value === '') {
+      const data = {
+        ...doc.data()
+      }
+      getSubjects.value = data.subject
+    }
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
 })
@@ -124,6 +122,7 @@ const showMonths = (mon, index) => {
 // Select Subject
 
 console.log(subjects.value[0])
+
 const showSubject = (sub, index) => {
   getSubjects.value = sub
   let currentSub = designSub.value[index]
