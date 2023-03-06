@@ -16,6 +16,10 @@ let SelectedSubject = props.subjects
 let selectedMonths = props.months
 let fID = props.FingerPrint
 const Attendance = ref([])
+let totalPresent = 0
+let totalAbsent = 0
+let totalLeaves = 0
+
 
 
 watchEffect(async () => {
@@ -33,9 +37,6 @@ watchEffect(async () => {
             status: doc.data().status
         })
     })
-    if (RawAttendance.length < 1) {
-        return;
-    }
 
     //Filtering Unique Dates
     let uniqueAttendence = []
@@ -58,8 +59,8 @@ watchEffect(async () => {
             uniqueAttendence.push(data);
         }
     }
+    const [date, month, year] = uniqueAttendence.length > 0 ? uniqueAttendence[uniqueAttendence.length - 1].date.split('/') : new Date().toLocaleDateString().split('/');
 
-    const [date, month, year] = uniqueAttendence[uniqueAttendence.length - 1].date.split('/')
 
     //Sunday Logic
     function getAllSundays(m, y) {
@@ -101,23 +102,37 @@ watchEffect(async () => {
         A -> Absent
         S -> Sunday
         L -> Leave
-    */
+        */
+    const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     for (let i = 1; i <= lastDate; i++) {
-        let Date = `${i}/${month}/${year}`
-        let result = presentInUniqueAttendance({ date: Date })
+        let currentDate = `${i}/${month}/${year}`
+        const d = new Date(year, month, i);
+        let dayOfTheWeek = weekday[d.getDay()];
+        let result = presentInUniqueAttendance({ date: currentDate })
         if (result) {
-            Attendance.value.push(result)
+            Attendance.value.push({
+                ...result,
+                dayOfTheWeek: dayOfTheWeek
+            })
+            if (result.status == 'p' || result.status == 'P') //there is some inconsistancy in data some status are 'p' and some are 'P' or condition will not be required in the final version
+                totalPresent += 1
+            else if (result.status == 'l')
+                totalLeaves += 1
+
         } else {
             if (isASunday(i)) {
                 Attendance.value.push({
-                    date: Date,
-                    status: 'S'
+                    date: currentDate,
+                    status: 'S',
+                    dayOfTheWeek: dayOfTheWeek
                 })
             } else {
                 Attendance.value.push({
-                    date: Date,
-                    status: 'A'
+                    date: currentDate,
+                    status: 'A',
+                    dayOfTheWeek: dayOfTheWeek
                 })
+                totalAbsent += 1
             }
         }
     }
@@ -128,9 +143,15 @@ watchEffect(async () => {
 
 <template>
     <div class="outerBlock">
+        <div>
+            <p>Total Present -> {{ totalPresent }}</p>
+            <p>Total Absent -> {{ totalAbsent }}</p>
+            <p>Total Leaves -> {{ totalLeaves }}</p>
+        </div>
         <div class="block" v-for="Att in Attendance" :key="Att.id">
             <div class="attendance">
                 <span class="date">{{ Att.date }}</span>
+                <span class="date">{{ Att.dayOfTheWeek }}</span>
                 <span class="absent" v-if="Att.status == 'A'">A</span>
                 <span class="present" v-else-if="Att.status != 'S' && Att.status != 'A'">P</span>
                 <span class="sunday" v-else>S</span>
