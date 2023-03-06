@@ -143,15 +143,17 @@ watchEffect(async () => {
 
 <template>
     <div class="outerBlock">
-        <div>
-            <p>Total Present -> {{ totalPresent }}</p>
-            <p>Total Absent -> {{ totalAbsent }}</p>
-            <p>Total Leaves -> {{ totalLeaves }}</p>
+        <div class="totals">
+            <p class="totalPresent"><span> {{ totalPresent }}</span></p>
+            <p class="totalAbsents"><span>{{ totalAbsent }}</span></p>
+            <p class="totalleaves"><span> {{ totalLeaves }}</span></p>
         </div>
         <div class="block" v-for="Att in Attendance" :key="Att.id">
             <div class="attendance">
-                <span class="date">{{ Att.date }}</span>
-                <span class="date">{{ Att.dayOfTheWeek }}</span>
+                <div class="time">
+                    <span class="date">{{ Att.date }}</span>
+                    <span class="date">{{ Att.dayOfTheWeek }}</span>
+                </div>
                 <span class="absent" v-if="Att.status == 'A'">A</span>
                 <span class="present" v-else-if="Att.status != 'S' && Att.status != 'A'">P</span>
                 <span class="sunday" v-else>S</span>
@@ -182,7 +184,7 @@ watchEffect(async () => {
     border-radius: 100px;
     margin-left: 1rem;
     color: darkgreen;
-    -webkit-text-stroke: 1px teal;
+    -webkit-text-stroke: 1px #356D69;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -204,7 +206,7 @@ watchEffect(async () => {
     border-radius: 100px;
     margin-left: 1rem;
     color: blue;
-    -webkit-text-stroke: 1px teal;
+    -webkit-text-stroke: 1px #356D69;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -224,5 +226,66 @@ watchEffect(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.time {
+    display: flex;
+    flex-direction: column;
+}
+
+.totals {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 1rem;
+
+}
+
+.totalPresent {
+    color: white;
+    height: 4rem;
+    width: 4rem;
+    background: url(/totalPresents.svg);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+}
+
+.totalPresent span {
+    font-size: 20px;
+    margin-top: .6rem;
+}
+
+.totalAbsents {
+    color: white;
+    height: 4rem;
+    width: 4rem;
+    background: url(/totalAbsents.svg);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+}
+
+.totalAbsents span {
+    font-size: 20px;
+    margin-top: .6rem;
+}
+
+.totalleaves {
+    color: white;
+    height: 4rem;
+    width: 4rem;
+    background: url(/totalLeaves.svg);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    justify-content: center;
+}
+
+.totalleaves span {
+    font-size: 20px;
+    margin-top: .6rem;
 }
 </style>

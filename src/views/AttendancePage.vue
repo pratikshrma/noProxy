@@ -76,12 +76,7 @@ watchEffect(async () => {
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
   querySnapshotSubject.forEach((doc) => {
-    // if (getSubjects.value === '') {
-    //   const data = {
-    //     ...doc.data()
-    //   }
-    //   console.log(data)
-    // }
+
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
 
@@ -97,7 +92,7 @@ watch(designSub, () => {
   designSub.value[0].style.color = "black"
 })
 watch(designMon, () => {
-  designMon.value[0].style.backgroundColor = "teal"
+  designMon.value[0].style.backgroundColor = "#356D69"
   designMon.value[0].style.color = "lavender"
   designMon.value[0].style.border = "1px solid lavender"
 })
@@ -119,22 +114,22 @@ watch(year, async () => {
 const showMonths = (mon, index) => {
   getMonths.value = mon
   let currentMon = designMon.value[index]
-  for (let i = 0; i <= subjects.value.length - 1; i++) {
+  for (let i = 0; i <= months.value.length - 1; i++) {
     if (designMon.value[i] == currentMon) {
       currentMon.style.backgroundColor = "lavender"
-      currentMon.style.border = "1px solid teal"
-      currentMon.style.color = "teal"
-      designMon.value[i].style.backgroundColor = "teal"
+      currentMon.style.border = "1px solid #356D69"
+      currentMon.style.color = "#356D69"
+      designMon.value[i].style.backgroundColor = "#356D69"
       designMon.value[i].style.color = "lavender"
       designMon.value[i].style.border = "1px solid lavender"
     }
     else {
-      currentMon.style.backgroundColor = "teal"
+      currentMon.style.backgroundColor = "#356D69"
       currentMon.style.border = "1px solid lavender"
       currentMon.style.color = "lavender"
       designMon.value[i].style.backgroundColor = "lavender"
-      designMon.value[i].style.color = "teal"
-      designMon.value[i].style.border = "1px solid teal"
+      designMon.value[i].style.color = "#356D69"
+      designMon.value[i].style.border = "1px solid #356D69"
     }
   }
 }
@@ -218,7 +213,6 @@ const ShowAtt = (Attendance, index) => {
             <div class="details">
               <span class="name">{{ student.name }}</span>
               <span class="rollno">Roll No. -{{ student.rollNo }}</span>
-              <span class="rollno">FingerID -{{ student.fid }}</span>
             </div>
           </div>
           <StudentAtt v-if="finger[index] && getSubjects && getMonths" :FingerPrint="finger[index]"
@@ -308,8 +302,8 @@ const ShowAtt = (Attendance, index) => {
   font-size: 25px;
   padding: .5rem .5rem;
   border-radius: 50px;
-  color: teal;
-  border: 1px solid teal;
+  color: #356D69;
+  border: 1px solid #356D69;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -334,8 +328,8 @@ const ShowAtt = (Attendance, index) => {
 }
 
 .student {
-  background-color: teal;
-  box-shadow: 1px 1px 4px teal;
+  background-color: #356D69;
+  box-shadow: 1px 1px 4px #356D69;
   border: 1px solid white;
   height: auto;
   width: 25rem;
