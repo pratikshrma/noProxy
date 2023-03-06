@@ -131,8 +131,9 @@ watchEffect(async () => {
         <div class="block" v-for="Att in Attendance" :key="Att.id">
             <div class="attendance">
                 <span class="date">{{ Att.date }}</span>
-                <span class="present" v-if="Att.status != 'S'">{{ Att.status }}</span>
-                <span class="sunday" v-else>"It's Sunday Bro"</span>
+                <span class="absent" v-if="Att.status == 'A'">A</span>
+                <span class="present" v-else-if="Att.status != 'S' && Att.status != 'A'">P</span>
+                <span class="sunday" v-else>S</span>
             </div>
         </div>
     </div>
@@ -170,5 +171,37 @@ watchEffect(async () => {
 .date {
     font-size: 23px;
     color: white;
+}
+
+.sunday {
+    text-transform: uppercase;
+    font-size: 20px;
+    height: 2rem;
+    width: 2rem;
+    background-color: aqua;
+    border: 1px solid white;
+    border-radius: 100px;
+    margin-left: 1rem;
+    color: blue;
+    -webkit-text-stroke: 1px teal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.absent {
+    text-transform: uppercase;
+    font-size: 20px;
+    height: 2rem;
+    width: 2rem;
+    background-color: #E34242;
+    border: 1px solid white;
+    border-radius: 100px;
+    margin-left: 1rem;
+    color: white;
+    /* -webkit-text-stroke: 1px white; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
