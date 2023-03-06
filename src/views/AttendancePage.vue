@@ -15,6 +15,8 @@ const students = ref([]);
 const designSub = ref()
 const designMon = ref()
 const months = ref([])
+let getMonths = ref();
+let getSubjects = ref();
 
 
 
@@ -89,9 +91,10 @@ watch(year, async () => {
 })
 
 
+
 //select month
 
-let getMonths = ref();
+
 
 const showMonths = (mon, index) => {
   getMonths.value = mon
@@ -116,10 +119,11 @@ const showMonths = (mon, index) => {
   }
 }
 
+
+
 // Select Subject
 
-let getSubjects = ref();
-
+console.log(subjects.value[0])
 const showSubject = (sub, index) => {
   getSubjects.value = sub
   let currentSub = designSub.value[index]
@@ -265,6 +269,7 @@ const ShowAtt = (Attendance, index) => {
   padding: .5rem .5rem;
   border-radius: 50px;
   color: white;
+  border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
