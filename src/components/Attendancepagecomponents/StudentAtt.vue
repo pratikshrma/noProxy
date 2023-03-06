@@ -106,7 +106,7 @@ watchEffect(async () => {
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     for (let i = 1; i <= lastDate; i++) {
         let currentDate = `${i}/${month}/${year}`
-        const d = new Date(year, month, i);
+        const d = new Date(year, month - 1, i);
         let dayOfTheWeek = weekday[d.getDay()];
         let result = presentInUniqueAttendance({ date: currentDate })
         if (result) {
