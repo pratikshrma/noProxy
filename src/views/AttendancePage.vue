@@ -76,12 +76,7 @@ watchEffect(async () => {
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
   querySnapshotSubject.forEach((doc) => {
-    // if (getSubjects.value === '') {
-    //   const data = {
-    //     ...doc.data()
-    //   }
-    //   console.log(data)
-    // }
+
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
 
@@ -119,7 +114,7 @@ watch(year, async () => {
 const showMonths = (mon, index) => {
   getMonths.value = mon
   let currentMon = designMon.value[index]
-  for (let i = 0; i <= subjects.value.length - 1; i++) {
+  for (let i = 0; i <= months.value.length - 1; i++) {
     if (designMon.value[i] == currentMon) {
       currentMon.style.backgroundColor = "lavender"
       currentMon.style.border = "1px solid teal"

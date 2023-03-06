@@ -128,7 +128,7 @@ watchEffect(async () => {
 
 <template>
     <div class="outerBlock">
-        <div class="block" v-for="Att in Attendance" :key="Att.id">
+        <div v-if="Attendance" class="block" v-for="Att in Attendance" :key="Att.id">
             <div class="attendance">
                 <span class="date">{{ Att.date }}</span>
                 <span class="absent" v-if="Att.status == 'A'">A</span>
@@ -136,6 +136,7 @@ watchEffect(async () => {
                 <span class="sunday" v-else>S</span>
             </div>
         </div>
+        <p v-else> Hemlo guys</p>
     </div>
 </template>
 
