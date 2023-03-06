@@ -12,11 +12,11 @@ const currentSession = ref(""); //Store the current Session
 const year = ref(); //Calculate the Year based on Semester selected in Home Page
 const subjects = ref([]);
 const students = ref([]);
-const designSub = ref();
-const designMon = ref();
-const months = ref([]);
-let getMonths = ref('');
-let getSubjects = ref('');
+const designSub = ref()
+const designMon = ref()
+const months = ref([])
+let getMonths = ref();
+let getSubjects = ref();
 
 
 
@@ -44,23 +44,31 @@ watchEffect(async () => {
   });
 
   //fetch months
-  let sessionType = ''
+
+
   if (semester == 1 || semester == 3 || semester == 5) {
-    sessionType = 'S'
+    const monthQuery = query(
+      collection(db, "months-2022-2023"),
+      where("sessionType", "==", "S")
+    );
+    const querySnapshotMonth = await getDocs(monthQuery);
+    querySnapshotMonth.forEach((doc) => {
+      months.value.push({ id: doc.id, ...doc.data() });
+    });
   }
   else if (semester == 2 || semester == 4 || semester == 6) {
-    sessionType = 'E'
+    const monthQuery = query(
+      collection(db, "months-2022-2023"),
+      where("sessionType", "==", "E")
+    );
+    const querySnapshotMonth = await getDocs(monthQuery);
+    querySnapshotMonth.forEach((doc) => {
+      months.value.push({ id: doc.id, ...doc.data() });
+    });
   }
-  const monthQuery = query(
-    collection(db, "months-2022-2023"),
-    where("sessionType", "==", sessionType)
-  );
-  const querySnapshotMonth = await getDocs(monthQuery);
-  querySnapshotMonth.forEach((doc) => {
-    months.value.push({ id: doc.id, ...doc.data() });
-  });
 
   // fetch Subjects
+
 
   const SubjectQuery = query(
     collection(db, "teachers"),
@@ -68,19 +76,32 @@ watchEffect(async () => {
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
   querySnapshotSubject.forEach((doc) => {
-    if (getSubjects.value === '') {
-      const data = {
-        ...doc.data()
-      }
-      getSubjects.value = data.subject
-      // console.log("triggered", getSubjects.value)
-    }
+    // if (getSubjects.value === '') {
+    //   const data = {
+    //     ...doc.data()
+    //   }
+    //   console.log(data)
+    // }
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
+
+
+
+  getSubjects.value = subjects.value[0].subject
+  getMonths.value = months.value[0].month
+
 })
 
+watch(designSub, () => {
+  designSub.value[0].style.backgroundColor = "lavender"
+  designSub.value[0].style.color = "black"
+})
+watch(designMon, () => {
+  designMon.value[0].style.backgroundColor = "teal"
+  designMon.value[0].style.color = "lavender"
+  designMon.value[0].style.border = "1px solid lavender"
+})
 // fetch Students
-
 
 watch(year, async () => {
   const StudenttQuery = query(collection(db, `students-${year.value}`))
@@ -92,6 +113,7 @@ watch(year, async () => {
 
 
 //select month
+
 
 
 const showMonths = (mon, index) => {
@@ -116,6 +138,8 @@ const showMonths = (mon, index) => {
     }
   }
 }
+
+
 
 // Select Subject
 
@@ -265,6 +289,7 @@ const ShowAtt = (Attendance, index) => {
   padding: .5rem .5rem;
   border-radius: 50px;
   color: white;
+  border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -319,7 +344,7 @@ const ShowAtt = (Attendance, index) => {
 }
 
 .student:hover {
-  scale: 1.1;
+  scale: 1.025;
   cursor: pointer;
   transition: 0.1s ease-in-out;
 }

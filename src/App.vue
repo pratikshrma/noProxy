@@ -7,7 +7,6 @@ import { auth } from '@/firebase'
 const authStore = useAuthStore()
 
 watchEffect(async () => {
-  console.log("WatchE")
   authStore.loading = true
   const unsubscibe = await auth.onAuthStateChanged((user) => {
     authStore.currentUser = user;
