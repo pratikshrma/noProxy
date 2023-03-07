@@ -44,6 +44,7 @@ watchEffect(async () => {
       year.value = sessionYearI - 2;
     }
   });
+  console.log(year.value)
 
   //fetch months
 
@@ -68,7 +69,6 @@ watchEffect(async () => {
       months.value.push({ id: doc.id, ...doc.data() });
     });
   }
-
   // fetch Subjects
 
 

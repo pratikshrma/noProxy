@@ -3,9 +3,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../views/HomePage.vue";
 import AttendancePage from "../views/AttendancePage.vue";
-import TeacherLogin from "../views/TeacherLogin.vue";
+import Login from "../views/Login.vue";
 import CheckLeaves from "../views/CheckLeaves.vue";
 import ApplyLeaves from "../views/ApplyLeaves.vue";
+import Admin from "../views/Admin.vue";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -20,9 +21,9 @@ const router = createRouter({
             component: AttendancePage,
         },
         {
-            path: "/teacherlogin",
-            name: "teacherlogin",
-            component: TeacherLogin,
+            path: "/login",
+            name: "login",
+            component: Login,
         },
         {
             path: "/applyleaves",
@@ -37,13 +38,21 @@ const router = createRouter({
             },
             component: CheckLeaves,
         },
+        {
+            path: "/admin",
+            name: "admin",
+            meta: {
+                loginRequired: true,
+            },
+            component: Admin,
+        },
     ],
 });
 
 router.beforeEach((to, from) => {
     if (to.meta.loginRequired) {
         if (localStorage.getItem("user") == "null") {
-            router.push("/teacherlogin");
+            router.push("/login");
         }
     }
 });

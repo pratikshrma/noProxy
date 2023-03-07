@@ -34,8 +34,8 @@ export const useAuthStore = defineStore("authStore", {
                 localStorage.setItem("user", user);
             });
             unsubscibe();
-            console.log(this.currentUser);
             this.loading = false;
+            return true;
         },
         async logout() {
             this.loading = true;
@@ -50,8 +50,6 @@ export const useAuthStore = defineStore("authStore", {
                 localStorage.removeItem("user");
             });
             unsubscibe();
-            console.log(this.user);
-
             this.loading = false;
         },
     },

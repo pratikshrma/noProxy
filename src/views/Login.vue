@@ -8,28 +8,29 @@
             <button>SignIn</button>
         </form>
     </div>
-    <button @click="handleLogout">Logout</button>
 </template>
 
 <script setup>
 
 import { useAuthStore } from '@/stores/AuthStore';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 const authStore = useAuthStore();
 const email = ref('');
 const password = ref('');
-
-function handleSignin() {
+const router = useRouter()
+async function handleSignin() {
     if (email.value == '' || password.value == '') {
         console.log("Enter a valid Email or Password");
         return
     }
     console.log(email.value, password.value)
-    authStore.signin(email.value, password.value);
+    const success = await authStore.signin(email.value, password.value);
+    if (success) {
+        router.push({ name: "admin" })
+    }
 }
 
-function handleLogout() {
-    authStore.logout();
-}
+
 
 </script>
