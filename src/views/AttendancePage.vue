@@ -1,6 +1,6 @@
 <script setup>
 import { db } from "@/firebase";
-import { collection, getDocs, getDoc, where, query } from "@firebase/firestore";
+import { collection, getDocs, where, query } from "@firebase/firestore";
 import { ref, watchEffect, watch, onMounted } from "vue";
 import router from "../router";
 import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
@@ -15,8 +15,10 @@ const students = ref([]);
 const designSub = ref()
 const designMon = ref()
 const months = ref([])
-let getMonths = ref();
-let getSubjects = ref();
+let selectedMonth = ref();
+let selectedSubject = ref();
+let selectedMonthBeginingDate = ref();
+let finger = ref([])
 
 
 
@@ -82,8 +84,9 @@ watchEffect(async () => {
 
 
 
-  getSubjects.value = subjects.value[0].subject
-  getMonths.value = months.value[0].month
+  selectedSubject.value = subjects.value[0].subject
+  selectedMonth.value = months.value[0].month
+  selectedMonthBeginingDate.value = months.value[0].createdAt
 
 })
 
@@ -111,8 +114,9 @@ watch(year, async () => {
 
 
 
-const showMonths = (mon, index) => {
-  getMonths.value = mon
+const showMonths = (month, index) => {
+  selectedMonth.value = month.month
+  selectedMonthBeginingDate.value = month.createdAt
   let currentMon = designMon.value[index]
   for (let i = 0; i <= months.value.length - 1; i++) {
     if (designMon.value[i] == currentMon) {
@@ -140,7 +144,7 @@ const showMonths = (mon, index) => {
 
 
 const showSubject = (sub, index) => {
-  getSubjects.value = sub
+  selectedSubject.value = sub
   let currentSub = designSub.value[index]
   for (let i = 0; i <= subjects.value.length - 1; i++) {
     if (designSub.value[i] == currentSub) {
@@ -155,14 +159,13 @@ const showSubject = (sub, index) => {
     }
   }
 }
-watch(getMonths, () => {
+watch(selectedMonth, () => {
   finger.value = [""]
 })
 // show attendance component 
-watch(getSubjects, () => {
+watch(selectedSubject, () => {
   finger.value = [""]
 })
-let finger = ref([])
 const ShowAtt = (Attendance, index) => {
   if (!finger.value[index]) {
     finger.value[index] = Attendance
@@ -197,7 +200,7 @@ const ShowAtt = (Attendance, index) => {
     <div class="Attendancebottom">
       <!-- months -->
       <div class="monthsSubjects">
-        <div ref="designMon" class="months" @click="showMonths(month.month, index)" v-for="(month, index) in months"
+        <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
           :key="index">
           {{ month.month }}
         </div>
@@ -215,8 +218,8 @@ const ShowAtt = (Attendance, index) => {
               <span class="rollno">Roll No. -{{ student.rollNo }}</span>
             </div>
           </div>
-          <StudentAtt v-if="finger[index] && getSubjects && getMonths" :FingerPrint="finger[index]"
-            :subjects="getSubjects" :months="getMonths" />
+          <StudentAtt v-if="finger[index] && selectedSubject && selectedMonth" :FingerPrint="finger[index]"
+            :subjects="selectedSubject" :months="selectedMonth" :time="selectedMonthBeginingDate" />
         </div>
       </div>
     </div>

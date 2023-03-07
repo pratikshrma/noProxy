@@ -4,28 +4,36 @@
 // import { defineProps } from 'vue';
 import { collection, getDocs, where, query, orderBy } from '@firebase/firestore'
 import { db } from '../../firebase'
-import { ref, watchEffect, computed } from 'vue';
+import { ref, watchEffect } from 'vue';
+
+
+
 
 
 const props = defineProps({
     FingerPrint: String,
     subjects: String,
-    months: String
+    months: String,
+    time: {
+        seconds: String,
+        nanoseconds: String,
+    }
 })
-let SelectedSubject = props.subjects
+let selectedSubject = props.subjects
 let selectedMonths = props.months
 let fID = props.FingerPrint
+let createdAt = props.time
 const Attendance = ref([])
 let totalPresent = 0
 let totalAbsent = 0
 let totalLeaves = 0
 
-
+console.log(createdAt)
 
 watchEffect(async () => {
     //Fetching RAW Dates from from Firestore
     let RawAttendance = []
-    const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${SelectedSubject}`),
+    const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${selectedSubject}`),
         where("month", "==", `${selectedMonths}`), orderBy("time"))
     const querySnapshotAttendance = await getDocs(AttendanceQuery)
     querySnapshotAttendance.forEach((doc) => {
@@ -93,6 +101,9 @@ watchEffect(async () => {
         lastDate = new Date(year, month, 0).getDate();
     }
 
+    const dateTime = new Date(createdAt.seconds * 1000 + createdAt.nanoseconds / 1000000)
+    let [startDate] = dateTime.toLocaleDateString().split('/');
+
 
     //we can also do this with map will probably do that later
 
@@ -104,7 +115,7 @@ watchEffect(async () => {
         L -> Leave
         */
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    for (let i = 1; i <= lastDate; i++) {
+    for (let i = startDate; i <= lastDate; i++) {
         let currentDate = `${i}/${month}/${year}`
         const d = new Date(year, month - 1, i);
         let dayOfTheWeek = weekday[d.getDay()];
@@ -136,7 +147,6 @@ watchEffect(async () => {
             }
         }
     }
-
 })
 
 </script>
