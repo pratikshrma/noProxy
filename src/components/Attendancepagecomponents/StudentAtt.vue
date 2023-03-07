@@ -156,7 +156,7 @@ watchEffect(async () => {
                 </div>
                 <span class="absent" v-if="Att.status == 'A'">A</span>
                 <span class="present" v-else-if="Att.status != 'S' && Att.status != 'A'">P</span>
-                <span class="sunday" v-else>S</span>
+                <span class="sunday" v-else>H</span>
             </div>
         </div>
     </div>
