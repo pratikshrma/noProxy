@@ -28,7 +28,7 @@ export const useAuthStore = defineStore("authStore", {
                     const errorMessage = error.message;
                     // ..
                     console.log(errorCode, errorMessage);
-                    return false
+                    return false;
                 });
             const unsubscibe = auth.onAuthStateChanged((user) => {
                 this.currentUser = user;
@@ -45,7 +45,7 @@ export const useAuthStore = defineStore("authStore", {
                 const errorMessage = error.message;
                 // ..
                 console.log(errorCode, errorMessage);
-                return false
+                return false;
             });
             const unsubscibe = auth.onAuthStateChanged((user) => {
                 this.currentUser = user;
@@ -53,56 +53,7 @@ export const useAuthStore = defineStore("authStore", {
             });
             unsubscibe();
             this.loading = false;
-            return true
+            return true;
         },
     },
 });
-
-// export const useAuthStore = defineStore("authStore", () => {
-//     const currentUser = ref(0);
-//     const loading = ref(false);
-
-//     async function signup(email, password) {
-//         try {
-//             loading.value = true;
-//             return await auth.createUserWithEmailAndPassword(email, password);
-//         } catch (error) {
-//             const errorCode = error.code;
-//             const errorMessage = error.message;
-//             // ..
-//             console.log(errorCode, errorMessage);
-//         }
-//     }
-//     async function signin(email, password) {
-//         try {
-//             loading.value = true;
-//             return await auth.signInWithEmailAndPassword(email, password);
-//         } catch (error) {
-//             const errorCode = error.code;
-//             const errorMessage = error.message;
-//             // ..
-//             console.log(errorCode, errorMessage);
-//         }
-//     }
-//     async function logout() {
-//         try {
-//             loading.value = true;
-//             return await auth.signOut();
-//         } catch (error) {
-//             const errorCode = error.code;
-//             const errorMessage = error.message;
-//             // ..
-//             console.log(errorCode, errorMessage);
-//         }
-//     }
-//     const stateChange = () => {
-//         const unsubscibe = auth.onAuthStateChanged((user) => {
-//             currentUser.value = user;
-//         });
-//         unsubscibe();
-//     };
-//     stateChange();
-//     loading.value = false;
-
-//     return { currentUser, loading, signin, signup, logout };
-// });

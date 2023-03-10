@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar.vue'
 const semester = router.currentRoute.value.params.id;
 const sessions = ref([]); //Stores the Sessions
 const currentSession = ref(""); //Store the current Session
+const currentYear = ref();//Stores the current year
 const year = ref(); //Calculate the Year based on Semester selected in Home Page
 const subjects = ref([]);
 const students = ref([]);
@@ -19,9 +20,6 @@ let selectedMonth = ref();
 let selectedSubject = ref();
 let selectedMonthBeginingDate = ref();
 let finger = ref([])
-
-
-
 
 watchEffect(async () => {
   const SnapshotSession = await getDocs(collection(db, "sessions"));
@@ -44,14 +42,13 @@ watchEffect(async () => {
       year.value = sessionYearI - 2;
     }
   });
-  console.log(year.value)
-
+  // console.log(currentSession.value)
   //fetch months
 
 
   if (semester == 1 || semester == 3 || semester == 5) {
     const monthQuery = query(
-      collection(db, "months-2022-2023"),
+      collection(db, `months-${currentSession.value.current}`),
       where("sessionType", "==", "S")
     );
     const querySnapshotMonth = await getDocs(monthQuery);
@@ -61,7 +58,7 @@ watchEffect(async () => {
   }
   else if (semester == 2 || semester == 4 || semester == 6) {
     const monthQuery = query(
-      collection(db, "months-2022-2023"),
+      collection(db, `months-${currentSession.value.current}`),
       where("sessionType", "==", "E")
     );
     const querySnapshotMonth = await getDocs(monthQuery);
@@ -71,7 +68,8 @@ watchEffect(async () => {
   }
   // fetch Subjects
 
-
+  //isko change karna pdaga
+  //subjects fetch karne mei kafi issue hei abhi
   const SubjectQuery = query(
     collection(db, "teachers"),
     where("semester", "==", `${semester}`)
@@ -111,9 +109,6 @@ watch(year, async () => {
 
 
 //select month
-
-
-
 const showMonths = (month, index) => {
   selectedMonth.value = month.month
   selectedMonthBeginingDate.value = month.createdAt
