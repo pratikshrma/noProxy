@@ -152,6 +152,7 @@ watchEffect(async () => {
                     dayOfTheWeek: dayOfTheWeek
                 })
                 totalAbsent += 1
+                //this is a test
             }
         }
     }
