@@ -16,14 +16,16 @@ let selectedSubject = props.subjects
 let selectedMonths = props.months
 let fID = props.FingerPrint
 let createdAt = props.time
-const Attendance = ref([])
+let Attendance = ref([])
 let totalPresent = 0
 let totalAbsent = 0
 let totalLeaves = 0
+const loading = ref(true)
 
-console.log(createdAt)
-
+// console.log(createdAt)
+// 
 watchEffect(async () => {
+    loading.value = true
     //Fetching RAW Dates from from Firestore
     let RawAttendance = []
     const AttendanceQuery = query(collection(db, "2022-2023"), where("fid", "==", `${fID}`), where("subject", "==", `${selectedSubject}`), where("month", "==", `${selectedMonths}`), orderBy("time"))
@@ -57,6 +59,7 @@ watchEffect(async () => {
             uniqueAttendence.push(data);
         }
     }
+    // console.log(uniqueAttendence)
     if (uniqueAttendence.length < 1) {
         //Fetch a single record just for date in case a student has no attendence
         const AttendanceQuery = query(collection(db, "2022-2023"), where("subject", "==", `${selectedSubject}`), where("month", "==", `${selectedMonths}`), limit(1))
@@ -73,10 +76,11 @@ watchEffect(async () => {
         //now if even after the the unique attendence array is empty then there is no hope just show that no Attendence
     }
     if (uniqueAttendence.length < 1) {
+        loading.value = false
         return
     }
     const [date, month, year] = uniqueAttendence[uniqueAttendence.length - 1].date.split('/');
-    console.log(month, year)
+    // console.log(month, year)
 
     //Sunday Logic
     function getAllSundays(m, y) {
@@ -156,7 +160,10 @@ watchEffect(async () => {
             }
         }
     }
+    console.log(Attendance.value)
+    loading.value = false
 })
+
 
 </script>
 
@@ -167,18 +174,23 @@ watchEffect(async () => {
             <p class="totalAbsents"><span>{{ totalAbsent }}</span></p>
             <p class="totalleaves"><span> {{ totalLeaves }}</span></p>
         </div>
-        <div class="block" v-for="Att in Attendance" :key="Att.id" v-if="Attendance.value">
-            <div class="attendance">
-                <div class="time">
-                    <span class="date">{{ Att.date }}</span>
-                    <span class="date">{{ Att.dayOfTheWeek }}</span>
-                </div>
-                <span class="absent" v-if="Att.status == 'A'">A</span>
-                <span class="present" v-else-if="Att.status != 'S' && Att.status != 'A'">P</span>
-                <span class="sunday" v-else>H</span>
-            </div>
+        <div v-if="loading">
+            <h2>Loading</h2>
         </div>
-        <div v-else="Attendance.value">No Attendence This Month</div>
+        <div v-else>
+            <div class="block" v-for="Att in Attendance" :key="Att.id" v-if="Attendance.length > 1">
+                <div class="attendance">
+                    <div class="time">
+                        <span class="date">{{ Att.date }}</span>
+                        <span class="date">{{ Att.dayOfTheWeek }}</span>
+                    </div>
+                    <span class="absent" v-if="Att.status == 'A'">A</span>
+                    <span class="present" v-else-if="Att.status != 'S' && Att.status != 'A'">P</span>
+                    <span class="sunday" v-else>H</span>
+                </div>
+            </div>
+            <div v-else>No Attendence This Month</div>
+        </div>
     </div>
 </template>
 

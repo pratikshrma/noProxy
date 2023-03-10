@@ -8,11 +8,12 @@
             <button>SignIn</button>
         </form>
     </div>
+    <div v-if="success">{{ authStore.errorMessage }}</div>
 </template>
 
 <script setup>
 
-import { useAuthStore } from '@/stores/AuthStore';
+import { useAuthStore } from '../stores/AuthStore';
 import { watchEffect } from 'vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -21,15 +22,14 @@ const authStore = useAuthStore();
 const email = ref('');
 const password = ref('');
 const router = useRouter()
-const currentUser = ref(authStore.currentUser)
+var success = ref('true')
 async function handleSignin() {
     if (email.value == '' || password.value == '') {
         console.log("Enter a valid Email or Password");
         return
     }
     console.log(email.value, password.value)
-    await authStore.signin(email.value, password.value);
-
+    success = await authStore.signin(email.value, password.value);
 }
 watchEffect(() => {
     console.log(authStore.currentUser)

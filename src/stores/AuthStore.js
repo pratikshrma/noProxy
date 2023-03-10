@@ -5,6 +5,7 @@ export const useAuthStore = defineStore("authStore", {
     state: () => ({
         currentUser: "",
         loading: false,
+        errorMessage: "",
     }),
     actions: {
         async signup(email, password) {
@@ -28,6 +29,7 @@ export const useAuthStore = defineStore("authStore", {
                     const errorMessage = error.message;
                     // ..
                     console.log(errorCode, errorMessage);
+                    this.errorMessage = errorMessage;
                     return false;
                 });
             const unsubscibe = auth.onAuthStateChanged((user) => {

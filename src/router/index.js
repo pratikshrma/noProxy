@@ -33,9 +33,6 @@ const router = createRouter({
         {
             path: "/checkleaves",
             name: "checkleaves",
-            meta: {
-                loginRequired: true,
-            },
             component: CheckLeaves,
         },
         {
