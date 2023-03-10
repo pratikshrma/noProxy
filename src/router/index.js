@@ -51,7 +51,8 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
     if (to.meta.loginRequired) {
-        if (localStorage.getItem("user") == "null") {
+        if (!localStorage.getItem("user")) {
+            console.log(localStorage.getItem("user"));
             router.push("/login");
         }
     }

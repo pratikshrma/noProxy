@@ -28,6 +28,7 @@ export const useAuthStore = defineStore("authStore", {
                     const errorMessage = error.message;
                     // ..
                     console.log(errorCode, errorMessage);
+                    return false
                 });
             const unsubscibe = auth.onAuthStateChanged((user) => {
                 this.currentUser = user;
@@ -44,6 +45,7 @@ export const useAuthStore = defineStore("authStore", {
                 const errorMessage = error.message;
                 // ..
                 console.log(errorCode, errorMessage);
+                return false
             });
             const unsubscibe = auth.onAuthStateChanged((user) => {
                 this.currentUser = user;
@@ -51,6 +53,7 @@ export const useAuthStore = defineStore("authStore", {
             });
             unsubscibe();
             this.loading = false;
+            return true
         },
     },
 });

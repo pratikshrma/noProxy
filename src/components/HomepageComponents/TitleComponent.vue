@@ -4,9 +4,9 @@
         <span class="questiontext">What would you like to do?</span>
         <div class="HomeButtons">
             <button class="BtnHome">
-                <RouterLink to="/teacherlogin"> Teacher's Login</RouterLink>
+                <RouterLink to="/login"> Teacher's Login</RouterLink>
             </button>
-            <button class="BtnHome">
+            <button class=" BtnHome">
                 <RouterLink to="/Applyleaves">Apply for a Leave</RouterLink>
             </button>
             <button class="BtnHome">
@@ -68,4 +68,5 @@ import { RouterLink, RouterView } from 'vue-router'
     scale: 1.1;
     box-shadow: 0px 0px 7px white;
     transition: .2s ease-in-out;
-}</style>
+}
+</style>
