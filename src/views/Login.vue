@@ -17,7 +17,6 @@ import { useAuthStore } from '../stores/AuthStore';
 import { watchEffect } from 'vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { auth } from '../firebase';
 const authStore = useAuthStore();
 const email = ref('');
 const password = ref('');

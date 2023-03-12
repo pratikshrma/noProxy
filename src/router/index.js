@@ -7,6 +7,7 @@ import Login from "../views/Login.vue";
 import CheckLeaves from "../views/CheckLeaves.vue";
 import ApplyLeaves from "../views/ApplyLeaves.vue";
 import Admin from "../views/Admin.vue";
+import EditStudentsProfile from "../views/EditStudentsProfile.vue";
 const router = createRouter({
     history: createWebHistory(),
     routes: [
@@ -42,6 +43,11 @@ const router = createRouter({
                 loginRequired: true,
             },
             component: Admin,
+        },
+        {
+            path: "/editstudentsprofile",
+            name: "editstudentsprofile",
+            component: EditStudentsProfile,
         },
     ],
 });

@@ -3,6 +3,7 @@
         {{ authStore.currentUser.email }}
         <br>
         <button @click="handleLogout">SignOut</button>
+        <button @click="handleEditStudentsProfile">EditStudentProfile</button>
     </div>
 </template>
 
@@ -11,6 +12,10 @@ import { useAuthStore } from '@/stores/AuthStore'
 import { useRouter } from 'vue-router';
 const authStore = useAuthStore()
 const router = useRouter()
+function handleEditStudentsProfile() {
+    router.push("/editProfile")
+    console.log("Go GO")
+}
 function handleLogout() {
     if (authStore.logout()) {
         router.push("/")
