@@ -13,7 +13,7 @@ import { useRouter } from 'vue-router';
 const authStore = useAuthStore()
 const router = useRouter()
 function handleEditStudentsProfile() {
-    router.push("/editProfile")
+    router.push("/editstudentsprofile")
     console.log("Go GO")
 }
 function handleLogout() {
