@@ -78,9 +78,6 @@ async function fetchData() {
       year.value = sessionYearI - 2;
     }
   });
-  // console.log(currentSession.value)
-  //fetch months
-
 
   if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
     const monthQuery = query(
@@ -102,11 +99,11 @@ async function fetchData() {
       months.value.push({ id: doc.id, ...doc.data() });
     });
   }
-  // fetch Subjects
   if (months.value.length < 1) {
     return
   }
 
+  // fetch Subjects
   const SubjectQuery = query(
     collection(db, "Subject"),  //#FIXLater -> Change the Subject to subject in production 
     where("semester", "==", `${semester.value}`)
@@ -148,11 +145,7 @@ const showMonths = (month, index) => {
   }
 }
 
-
-
 // Select Subject
-
-
 const showSubject = (sub, index) => {
   selectedSubject.value = sub
   let currentSub = designSub.value[index]
