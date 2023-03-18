@@ -1,23 +1,26 @@
 <template>
-    change sessions->
-    <button v-for="session in sessions" @click="changeSession(session)">{{ session.session }}</button>
-    Select Year ->
-    <button @click="changeCurrentYear(1)">1</button>
-    <button @click="changeCurrentYear(2)">2</button>
-    <button @click="changeCurrentYear(3)">3</button>
     <div v-if="loading">Loading Please Wait</div>
     <div v-else>
-        <div class="StudentCard">
-            <div class="student" v-for="(student, index) in students" :key="index">
-                <div class="info">
-                    <div v-if="student.image" class="image"><img src={{student.image}} alt="Student Image"></div>
-                    <div v-else>No Image</div>
-                    <div class="details">
-                        <span class="name">{{ student.name }}</span>
-                        <span class="rollno">Roll No. - {{ student.rollNo }}</span>
+        change sessions->
+        <button v-for="session in sessions" @click="changeSession(session)">{{ session.session }}</button>
+        Select Year ->
+        <button @click="changeCurrentYear(1)">1</button>
+        <button @click="changeCurrentYear(2)">2</button>
+        <button @click="changeCurrentYear(3)">3</button>
+        <div>
+            <div class="StudentCard">
+                <div class="student" v-for="(student, index) in students" :key="index">
+                    <div class="info">
+                        <div v-if="student.image" class="image"><img :src="student.image" alt="Student Image"
+                                style="height: 100px;width: 100px;"></div>
+                        <div v-else>No Image</div>
+                        <div class="details">
+                            <span class="name">{{ student.name }}</span>
+                            <span class="rollno">Roll No. - {{ student.rollNo }}</span>
+                        </div>
                     </div>
+                    <input type="file" @change="handleUpload($event, student.rollNo)">
                 </div>
-                <input type="file" @change="handleUpload($event, student.rollNo)">
             </div>
         </div>
     </div>
@@ -115,8 +118,8 @@ async function handleUpload(e, rollno) {
                         ...document.data(),
                         image: url
                     });
-
                 })
+                fetchStudents()
             })
         }
     )
