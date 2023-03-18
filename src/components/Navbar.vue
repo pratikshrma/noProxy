@@ -1,34 +1,31 @@
 <template>
     <div class="Navbar">
         <RouterLink to="/"><img src="/logo.svg" class="logo"></RouterLink>
-        <div class="helpandsupport">
-            <span class="contactus">Help & support &nbsp <img src="/support.svg" />&nbsp| </span>
-            <span class="contactus">Contact us &nbsp <img src="/contactus.svg" />&nbsp</span>
-        </div>
+        <CheckAttendance />
+        <div class="attendance">Attendance</div>
     </div>
 </template>
     
 
 <script setup>
-
+import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vue'
 </script>
     
 <style scoped>
 .Navbar {
-    width: 93%;
-    height: 4.25rem;
+    width: 98%;
+    height: 6.25rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 0 2rem;
+    justify-content: space-evenly;
 }
 
 .logo {
-    scale: 1.3;
+    scale: 1.9;
     width: 13.875rem;
     height: 4.294rem;
     margin-top: 2rem;
-    margin-left: 2rem;
+    margin-left: 3rem;
 }
 
 .logo:hover {
@@ -36,31 +33,27 @@
     transition: .2s ease-in-out;
 }
 
-.helpandsupport {
-    display: flex;
-    justify-content: space-between;
-    margin-top: .5rem;
-
-}
-
-.contactus {
-    display: flex;
-    align-items: center;
-    color: lavender;
+.attendance {
+    height: 3rem;
+    width: 12rem;
+    border-radius: 15px;
+    background-color: #ff9820;
+    border: 1px solid #ff9820;
     font-size: 18px;
-    margin: 0 .5rem;
-    text-shadow: 2px 2px 2px black;
+    box-shadow: 1px 1px 10px #0d2726;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-right: 2rem;
+    display: none;
 }
 
-.contactus img {
-    margin-top: 1rem;
-    scale: 1.5;
-
-}
-
-.contactus:hover {
+.attendance:hover {
+    border: 1px solid white;
     scale: 1.1;
-    cursor: pointer;
-    transition: .2s ease;
+    box-shadow: 0px 0px 7px white;
+    transition: .2s ease-in-out;
 }
 </style>
