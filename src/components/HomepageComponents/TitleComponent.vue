@@ -8,7 +8,7 @@
             <button class="BtnHome">
                 <RouterLink to="/login"> Teacher's Login</RouterLink>
             </button>
-            <button class=" BtnHome">
+            <button class=" BtnHome applyLeave">
                 <RouterLink to="/Applyleaves">Apply for a Leave</RouterLink>
             </button>
             <button class="BtnHome">
@@ -74,5 +74,32 @@ import { RouterLink, RouterView } from 'vue-router'
     scale: 1.1;
     box-shadow: 0px 0px 7px white;
     transition: .2s ease-in-out;
+}
+
+@media screen and (max-width:1365px) {
+    .title {
+        font-size: 6rem;
+    }
+
+    .title2 {
+        font-size: 1.5rem;
+        padding: 0 1rem 0 1rem;
+    }
+
+    .HomeButtons {
+        gap: 3rem;
+        padding: 0 2rem;
+    }
+
+    .BtnHome {
+        height: 4rem;
+        width: 10.5rem;
+        font-size: 16.5px;
+
+    }
+
+    .applyLeave {
+        margin-top: 7rem;
+    }
 }
 </style>
