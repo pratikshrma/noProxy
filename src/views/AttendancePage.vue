@@ -23,8 +23,11 @@ let loading = ref(true)
 
 watch(() => router.currentRoute.value.params, () => {
   semester.value = router.currentRoute.value.params.id
+  console.log("This is dev branch")
+  console.log("this is hello")
   console.log(semester.value)
 })
+
 
 watch([semester], async () => {
   subjects.value = []
