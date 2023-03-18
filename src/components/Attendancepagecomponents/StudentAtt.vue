@@ -275,8 +275,8 @@ watchEffect(async () => {
 
 .totalPresent {
     color: white;
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
     background: url(/totalPresents.svg);
     background-size: cover;
     display: flex;
@@ -285,14 +285,14 @@ watchEffect(async () => {
 }
 
 .totalPresent span {
-    font-size: 20px;
-    margin-top: .6rem;
+    font-size: 25px;
+    margin-top: .7rem;
 }
 
 .totalAbsents {
     color: white;
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
     background: url(/totalAbsents.svg);
     background-size: cover;
     display: flex;
@@ -301,14 +301,14 @@ watchEffect(async () => {
 }
 
 .totalAbsents span {
-    font-size: 20px;
-    margin-top: .6rem;
+    font-size: 25px;
+    margin-top: .7rem;
 }
 
 .totalleaves {
     color: white;
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
     background: url(/totalLeaves.svg);
     background-size: cover;
     display: flex;
@@ -317,7 +317,7 @@ watchEffect(async () => {
 }
 
 .totalleaves span {
-    font-size: 20px;
-    margin-top: .6rem;
+    font-size: 25px;
+    margin-top: .7rem;
 }
 </style>

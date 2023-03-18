@@ -1,7 +1,9 @@
 <template>
     <div class="titleComponent">
         <span class="title">NO PROXY</span>
-        <span class="questiontext">What would you like to do?</span>
+        <span class="title2">Our Aim is to reduce load of teachers so they can devote more time on students rather than
+            creating Attendance sheets, Assinging fine and being fed up.</span>
+
         <div class="HomeButtons">
             <button class="BtnHome">
                 <RouterLink to="/login"> Teacher's Login</RouterLink>
@@ -28,6 +30,7 @@ import { RouterLink, RouterView } from 'vue-router'
     justify-content: space-evenly;
     flex-direction: column;
     height: auto;
+    margin-top: 8rem;
 }
 
 .title {
@@ -35,16 +38,19 @@ import { RouterLink, RouterView } from 'vue-router'
     font-family: var(--font-face);
 }
 
-.questiontext {
-    font-size: 1.5rem;
-    margin-top: -3rem;
+.title2 {
+    font-size: 2rem;
+    padding: 0 20rem 0 20rem;
+    font-family: var(--font-face);
+    margin-top: -1rem;
 }
+
 
 .HomeButtons {
     justify-content: center;
     gap: 10rem;
     display: flex;
-    margin-top: 2rem;
+    margin-top: 3rem;
 
 }
 

@@ -207,11 +207,7 @@ const ShowAtt = (Attendance, index) => {
       <div class="StudentCard">
         <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
           <div class="info">
-            <div class="image"><img :src="student.image" alt="Student Image" v-if="student.image"
-                style="height: 100px; width: 100px;">
-              <img v-else src="https://cdn-icons-png.flaticon.com/512/6386/6386976.png" alt="Default Icon"
-                style="height: 100px; width: 100px;">
-            </div>
+            <div class="image"></div>
             <div class="details">
               <span class="name">{{ student.name }}</span>
               <span class="rollno">Roll No. -{{ student.rollNo }}</span>
@@ -246,7 +242,7 @@ const ShowAtt = (Attendance, index) => {
 }
 
 .Attendancebottom {
-  margin-top: -5rem;
+  margin-top: -4rem;
   background-color: lavender;
   border-top-left-radius: 80px;
   border-top-right-radius: 80px;
