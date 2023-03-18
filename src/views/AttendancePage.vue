@@ -7,9 +7,9 @@ import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
 import Navbar from '../components/Navbar.vue'
 
 const semester = ref(router.currentRoute.value.params.id)
-const sessions = ref([]); //Stores the Sessions
-const currentSession = ref(""); //Store the current Session
-const year = ref(); //Calculate the Year based on Semester selected in Home Page
+const sessions = ref([]);
+const currentSession = ref("");
+const year = ref();
 const subjects = ref([]);
 const students = ref([]);
 const designSub = ref()
@@ -23,8 +23,6 @@ let loading = ref(true)
 
 watch(() => router.currentRoute.value.params, () => {
   semester.value = router.currentRoute.value.params.id
-  console.log("This is dev branch")
-  console.log("this is hello")
   console.log(semester.value)
 })
 
@@ -35,18 +33,15 @@ watch([semester], async () => {
   fetchData()
 })
 watchEffect(async () => {
-  console.log("Triggered On Load")
   fetchData()
 })
 
 watch(designSub, () => {
-  designSub.value[0].style.backgroundColor = "lavender"
-  designSub.value[0].style.color = "black"
+  designSub.value[0].classList.add('selectedSubject')
+  designSub.value[0].classList.remove('unSelectedSubject')
 })
 watch(designMon, () => {
-  designMon.value[0].style.backgroundColor = "#356D69"
-  designMon.value[0].style.color = "lavender"
-  designMon.value[0].style.border = "1px solid lavender"
+  designMon.value[0].classList.add('selectedMonth')
 })
 // fetch Students
 watch(year, async () => {
@@ -130,20 +125,10 @@ const showMonths = (month, index) => {
   let currentMon = designMon.value[index]
   for (let i = 0; i <= months.value.length - 1; i++) {
     if (designMon.value[i] == currentMon) {
-      currentMon.style.backgroundColor = "lavender"
-      currentMon.style.border = "1px solid #356D69"
-      currentMon.style.color = "#356D69"
-      designMon.value[i].style.backgroundColor = "#356D69"
-      designMon.value[i].style.color = "lavender"
-      designMon.value[i].style.border = "1px solid lavender"
+      designMon.value[i].classList.add('selectedMonth')
     }
     else {
-      currentMon.style.backgroundColor = "#356D69"
-      currentMon.style.border = "1px solid lavender"
-      currentMon.style.color = "lavender"
-      designMon.value[i].style.backgroundColor = "lavender"
-      designMon.value[i].style.color = "#356D69"
-      designMon.value[i].style.border = "1px solid #356D69"
+      designMon.value[i].classList.remove('selectedMonth')
     }
   }
 }
@@ -154,14 +139,12 @@ const showSubject = (sub, index) => {
   let currentSub = designSub.value[index]
   for (let i = 0; i <= subjects.value.length - 1; i++) {
     if (designSub.value[i] == currentSub) {
-      currentSub.style.color = "lavender"
-      designSub.value[i].style.backgroundColor = "lavender"
-      designSub.value[i].style.color = "black"
+      designSub.value[i].classList.add('selectedSubject')
+      designSub.value[i].classList.remove('unSelectedSubject')
     }
     else {
-      currentSub.style.color = "black"
-      designSub.value[i].style.backgroundColor = "transparent"
-      designSub.value[i].style.color = "lavender"
+      designSub.value[i].classList.remove('selectedSubject')
+      designSub.value[i].classList.add('unSelectedSubject')
     }
   }
 }
@@ -191,7 +174,6 @@ const ShowAtt = (Attendance, index) => {
       <p class="pleaseSelect">Please select a subject below:</p>
 
       <!-- subjects -->
-
       <div class="CollegeSubjects">
         <div ref="designSub" @click="showSubject(subject.subject, index)" class="subjects"
           v-for="(subject, index) in subjects" :key="index">
@@ -222,7 +204,7 @@ const ShowAtt = (Attendance, index) => {
               <div class="image"></div>
               <div class="details">
                 <span class="name">{{ student.name }}</span>
-                <span class="rollno">Roll No. -{{ student.rollNo }}</span>
+                <span class="rollno">Roll No. - {{ student.rollNo }}</span>
               </div>
             </div>
             <StudentAtt v-if="finger[index] && selectedSubject && selectedMonth" :FingerPrint="finger[index]"
@@ -383,5 +365,27 @@ const ShowAtt = (Attendance, index) => {
 .rollno {
   font-size: 16px;
   font-weight: lighter;
+}
+
+.selectedSubject {
+  color: black;
+  background-color: lavender;
+}
+
+.unSelectedSubject {
+  color: lavender;
+  background-color: transparent;
+}
+
+.selectedMonth {
+  background-color: #356D69;
+  border: 1px solid #356D69;
+  color: lavender;
+}
+
+.unSelectedMonth {
+  background-color: #356D69;
+  border: 1px solid lavender;
+  color: lavender
 }
 </style>
