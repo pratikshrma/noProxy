@@ -156,7 +156,7 @@ watchEffect(async () => {
                 </div>
                 <span class="absent" v-if="Att.status == 'A'">A</span>
                 <span class="present" v-else-if="Att.status != 'S' && Att.status != 'A'">P</span>
-                <span class="sunday" v-else>S</span>
+                <span class="sunday" v-else>H</span>
             </div>
         </div>
     </div>
@@ -243,8 +243,8 @@ watchEffect(async () => {
 
 .totalPresent {
     color: white;
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
     background: url(/totalPresents.svg);
     background-size: cover;
     display: flex;
@@ -253,14 +253,14 @@ watchEffect(async () => {
 }
 
 .totalPresent span {
-    font-size: 20px;
-    margin-top: .6rem;
+    font-size: 25px;
+    margin-top: .7rem;
 }
 
 .totalAbsents {
     color: white;
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
     background: url(/totalAbsents.svg);
     background-size: cover;
     display: flex;
@@ -269,14 +269,14 @@ watchEffect(async () => {
 }
 
 .totalAbsents span {
-    font-size: 20px;
-    margin-top: .6rem;
+    font-size: 25px;
+    margin-top: .7rem;
 }
 
 .totalleaves {
     color: white;
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
     background: url(/totalLeaves.svg);
     background-size: cover;
     display: flex;
@@ -285,7 +285,7 @@ watchEffect(async () => {
 }
 
 .totalleaves span {
-    font-size: 20px;
-    margin-top: .6rem;
+    font-size: 25px;
+    margin-top: .7rem;
 }
 </style>
