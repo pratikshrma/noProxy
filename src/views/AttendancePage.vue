@@ -9,7 +9,6 @@ import Navbar from '../components/Navbar.vue'
 const semester = ref(router.currentRoute.value.params.id)
 const sessions = ref([]); //Stores the Sessions
 const currentSession = ref(""); //Store the current Session
-const currentYear = ref();//Stores the current year
 const year = ref(); //Calculate the Year based on Semester selected in Home Page
 const subjects = ref([]);
 const students = ref([]);
@@ -20,8 +19,45 @@ let selectedMonth = ref();
 let selectedSubject = ref();
 let selectedMonthBeginingDate = ref();
 let finger = ref([])
+let loading = ref(true)
 
+watch(() => router.currentRoute.value.params, () => {
+  semester.value = router.currentRoute.value.params.id
+  console.log(semester.value)
+})
+
+watch([semester], async () => {
+  subjects.value = []
+  months.value = []
+  fetchData()
+})
 watchEffect(async () => {
+  console.log("Triggered On Load")
+  fetchData()
+})
+
+watch(designSub, () => {
+  designSub.value[0].style.backgroundColor = "lavender"
+  designSub.value[0].style.color = "black"
+})
+watch(designMon, () => {
+  designMon.value[0].style.backgroundColor = "#356D69"
+  designMon.value[0].style.color = "lavender"
+  designMon.value[0].style.border = "1px solid lavender"
+})
+// fetch Students
+watch(year, async () => {
+  students.value = []
+  loading.value = true
+  const StudenttQuery = query(collection(db, `students-${year.value}`))
+  const querySnapshotStudents = await getDocs(StudenttQuery)
+  querySnapshotStudents.forEach((doc) => {
+    students.value.push({ id: doc.id, ...doc.data() })
+  })
+  loading.value = false
+})
+
+async function fetchData() {
   const SnapshotSession = await getDocs(collection(db, "sessions"));
   SnapshotSession.forEach((doc) => {
     sessions.value.push({ id: doc.id, ...doc.data() });
@@ -67,11 +103,12 @@ watchEffect(async () => {
     });
   }
   // fetch Subjects
+  if (months.value.length < 1) {
+    return
+  }
 
-  //isko change karna pdaga
-  //subjects fetch karne mei kafi issue hei abhi
   const SubjectQuery = query(
-    collection(db, "teachers"),
+    collection(db, "Subject"),  //#FIXLater -> Change the Subject to subject in production 
     where("semester", "==", `${semester.value}`)
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
@@ -79,34 +116,12 @@ watchEffect(async () => {
 
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
-
-
-
   selectedSubject.value = subjects.value[0].subject
   selectedMonth.value = months.value[0].month
   selectedMonthBeginingDate.value = months.value[0].createdAt
+  loading.value = false
 
-})
-
-watch(designSub, () => {
-  designSub.value[0].style.backgroundColor = "lavender"
-  designSub.value[0].style.color = "black"
-})
-watch(designMon, () => {
-  designMon.value[0].style.backgroundColor = "#356D69"
-  designMon.value[0].style.color = "lavender"
-  designMon.value[0].style.border = "1px solid lavender"
-})
-// fetch Students
-
-watch(year, async () => {
-  const StudenttQuery = query(collection(db, `students-${year.value}`))
-  const querySnapshotStudents = await getDocs(StudenttQuery)
-  querySnapshotStudents.forEach((doc) => {
-    students.value.push({ id: doc.id, ...doc.data() })
-  })
-})
-
+}
 
 //select month
 const showMonths = (month, index) => {
@@ -173,7 +188,6 @@ const ShowAtt = (Attendance, index) => {
 
 <template>
   <!-- FIRST HALF -->
-
   <div id="AttendancePage">
     <div class="attendanceTop">
       <Navbar />
@@ -191,32 +205,36 @@ const ShowAtt = (Attendance, index) => {
     </div>
 
     <!-- SECOND HALF-->
-
-    <div class="Attendancebottom">
-      <!-- months -->
-      <div class="monthsSubjects">
-        <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
-          :key="index">
-          {{ month.month }}
-        </div>
-      </div>
-
-
-      <!-- Students List -->
-
-      <div class="StudentCard">
-        <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
-          <div class="info">
-            <div class="image"></div>
-            <div class="details">
-              <span class="name">{{ student.name }}</span>
-              <span class="rollno">Roll No. -{{ student.rollNo }}</span>
-            </div>
+    <div v-if="(months.length < 1 || students.length == 0) && !loading">Sorry No Attendence For This Semester</div>
+    <div v-else-if="months.length < 1 && loading"></div>
+    <div v-else>
+      <div class="Attendancebottom">
+        <!-- months -->
+        <div class="monthsSubjects">
+          <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
+            :key="index">
+            {{ month.month }}
           </div>
-          <StudentAtt v-if="finger[index] && selectedSubject && selectedMonth" :FingerPrint="finger[index]"
-            :subjects="selectedSubject" :months="selectedMonth" :time="selectedMonthBeginingDate" />
+        </div>
+
+
+        <!-- Students List -->
+
+        <div class="StudentCard">
+          <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
+            <div class="info">
+              <div class="image"></div>
+              <div class="details">
+                <span class="name">{{ student.name }}</span>
+                <span class="rollno">Roll No. -{{ student.rollNo }}</span>
+              </div>
+            </div>
+            <StudentAtt v-if="finger[index] && selectedSubject && selectedMonth" :FingerPrint="finger[index]"
+              :subjects="selectedSubject" :months="selectedMonth" :time="selectedMonthBeginingDate" />
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
