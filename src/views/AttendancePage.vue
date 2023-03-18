@@ -6,7 +6,7 @@ import router from "../router";
 import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
 import Navbar from '../components/Navbar.vue'
 
-const semester = router.currentRoute.value.params.id;
+const semester = ref(router.currentRoute.value.params.id)
 const sessions = ref([]); //Stores the Sessions
 const currentSession = ref(""); //Store the current Session
 const currentYear = ref();//Stores the current year
@@ -34,9 +34,9 @@ watchEffect(async () => {
     currentSession.value = { id: doc.id, ...doc.data() };
     const sessionYear = currentSession.value.current.split("-");
     const sessionYearI = parseInt(sessionYear[0]);
-    if (semester == "1" || semester == "2") {
+    if (semester.value == "1" || semester.value == "2") {
       year.value = sessionYearI;
-    } else if (semester == "3" || semester == "4") {
+    } else if (semester.value == "3" || semester.value == "4") {
       year.value = sessionYearI - 1;
     } else {
       year.value = sessionYearI - 2;
@@ -46,7 +46,7 @@ watchEffect(async () => {
   //fetch months
 
 
-  if (semester == 1 || semester == 3 || semester == 5) {
+  if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
     const monthQuery = query(
       collection(db, `months-${currentSession.value.current}`),
       where("sessionType", "==", "S")
@@ -56,7 +56,7 @@ watchEffect(async () => {
       months.value.push({ id: doc.id, ...doc.data() });
     });
   }
-  else if (semester == 2 || semester == 4 || semester == 6) {
+  else if (semester.value == 2 || semester.value == 4 || semester.value == 6) {
     const monthQuery = query(
       collection(db, `months-${currentSession.value.current}`),
       where("sessionType", "==", "E")
@@ -72,7 +72,7 @@ watchEffect(async () => {
   //subjects fetch karne mei kafi issue hei abhi
   const SubjectQuery = query(
     collection(db, "teachers"),
-    where("semester", "==", `${semester}`)
+    where("semester", "==", `${semester.value}`)
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
   querySnapshotSubject.forEach((doc) => {
