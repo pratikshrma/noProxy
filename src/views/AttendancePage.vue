@@ -173,7 +173,7 @@ const ShowAtt = (Attendance, index) => {
     <div class="attendanceTop">
       <Navbar />
       <p class="pageName">attendance</p>
-      <p class="pleaseSelect">Please select a subject below:</p>
+      <p class="pleaseSelect">Please select a subject:</p>
 
       <!-- subjects -->
       <div class="CollegeSubjects">
@@ -184,23 +184,14 @@ const ShowAtt = (Attendance, index) => {
       </div>
     </div>
 
-<<<<<<< HEAD
-    <div v-if="(months.length < 1 || students.length == 0) && !loading" class="sorry">
-      <img src="/sorry 2.png" height="200" width="250">
-      Sorry No Attendence For This Semester
-    </div>
-    <div v-else-if="months.length < 1 && loading"></div>
-    <div v-else>
-      <!-- SECOND HALF-->
-      <div class="Attendancebottom">
-=======
     <!-- SECOND HALF-->
     <div class="Attendancebottom">
-      <div class="StudentCard" v-if="(months.length < 1 || students.length == 0) && !loading">Sorry No Attendence For This
-        Semester</div>
-      <div class="StudentCard" v-else-if="months.length < 1 && loading">Loading</div>
+      <div class="sorry" v-if="(months.length < 1 || students.length == 0) && !loading">
+        <img src="/sorry 2.png" />
+        <span>No Attendence For This Semester !!</span>
+      </div>
+      <div class="sorry" v-else-if="months.length < 1 && loading">Loading</div>
       <div v-else>
->>>>>>> c6796da5f37f6f3cdfb7a5fb7d69b40bcdc25769
         <!-- months -->
         <div class="monthsSubjects">
           <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
@@ -264,7 +255,13 @@ const ShowAtt = (Attendance, index) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 1rem 1rem
+}
 
+.sorry img {
+  height: 12rem;
+  width: 15rem;
+  margin-left: -2rem;
 }
 
 .pageName {
@@ -417,24 +414,85 @@ const ShowAtt = (Attendance, index) => {
   .Attendancebottom {
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
+    margin-top: -17rem;
+    height: auto;
+    min-height: 20rem;
+
   }
 
   .pageName {
-    font-size: 4.5rem;
+    font-size: 3rem;
+    margin-left: -7rem;
   }
 
   .pleaseSelect {
-    font-size: 1.5rem;
+    margin-left: -9rem;
+    font-size: 1rem;
   }
 
   .CollegeSubjects {
     gap: 1rem;
+    width: 30%;
+    padding: 1rem 0;
+    flex-direction: column;
+    margin-top: -8rem;
+    margin-left: 18rem;
   }
 
   .subjects {
-    font-size: .5rem;
-    padding: 0 .5rem;
+    font-size: 8px;
+    padding: .2rem .3rem;
+    width: 6rem;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .monthsSubjects {
+    gap: 1rem;
+    width: 95%;
+    padding: 1rem .5rem;
+  }
+
+  .months {
+    font-size: 8px;
+    padding: .2rem .3rem;
     width: 10rem;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .StudentCard {
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    padding: 0 0;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .student {
+    width: 10rem;
+  }
+
+  .details {
+    margin-left: .5rem;
+  }
+
+  .image {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .name {
+    font-size: 15px;
+  }
+
+  .rollno {
+    font-size: 10px;
+  }
+
+  .sorry {
+    font-size: 1.5rem;
   }
 }
 </style>
