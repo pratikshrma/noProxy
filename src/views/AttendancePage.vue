@@ -7,21 +7,60 @@ import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
 import Navbar from '../components/Navbar.vue'
 
 const semester = ref(router.currentRoute.value.params.id)
-const sessions = ref([]); //Stores the Sessions
-const currentSession = ref(""); //Store the current Session
-const currentYear = ref();//Stores the current year
-const year = ref(); //Calculate the Year based on Semester selected in Home Page
+const sessions = ref([]);
+const currentSession = ref("");
+const year = ref();
 const subjects = ref([]);
 const students = ref([]);
-const designSub = ref()
-const designMon = ref()
+let designSub = ref()
+let designMon = ref()
 const months = ref([])
 let selectedMonth = ref();
 let selectedSubject = ref();
 let selectedMonthBeginingDate = ref();
 let finger = ref([])
+let loading = ref(true)
 
+watch(() => router.currentRoute.value.params, () => {
+  semester.value = router.currentRoute.value.params.id
+  console.log(semester.value)
+  designSub.value = null
+  designMon.value = null
+})
+
+watch([semester], async () => {
+  subjects.value = []
+  months.value = []
+  fetchData()
+})
 watchEffect(async () => {
+  fetchData()
+})
+
+watch(designSub, () => {
+  if (designSub.value != null) {
+    designSub.value[0].classList.add('selectedSubject')
+    designSub.value[0].classList.remove('unSelectedSubject')
+  }
+})
+watch(designMon, () => {
+  if (designMon.value != null) {
+    designMon.value[0].classList.add('selectedMonth')
+  }
+})
+// fetch Students
+watch(year, async () => {
+  students.value = []
+  loading.value = true
+  const StudenttQuery = query(collection(db, `students-${year.value}`))
+  const querySnapshotStudents = await getDocs(StudenttQuery)
+  querySnapshotStudents.forEach((doc) => {
+    students.value.push({ id: doc.id, ...doc.data() })
+  })
+  loading.value = false
+})
+
+async function fetchData() {
   const SnapshotSession = await getDocs(collection(db, "sessions"));
   SnapshotSession.forEach((doc) => {
     sessions.value.push({ id: doc.id, ...doc.data() });
@@ -42,9 +81,6 @@ watchEffect(async () => {
       year.value = sessionYearI - 2;
     }
   });
-  // console.log(currentSession.value)
-  //fetch months
-
 
   if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
     const monthQuery = query(
@@ -66,12 +102,13 @@ watchEffect(async () => {
       months.value.push({ id: doc.id, ...doc.data() });
     });
   }
-  // fetch Subjects
+  if (months.value.length < 1) {
+    return
+  }
 
-  //isko change karna pdaga
-  //subjects fetch karne mei kafi issue hei abhi
+  // fetch Subjects
   const SubjectQuery = query(
-    collection(db, "teachers"),
+    collection(db, "Subject"),  //#FIXLater -> Change the Subject to subject in production 
     where("semester", "==", `${semester.value}`)
   );
   const querySnapshotSubject = await getDocs(SubjectQuery);
@@ -79,34 +116,12 @@ watchEffect(async () => {
 
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
-
-
-
   selectedSubject.value = subjects.value[0].subject
   selectedMonth.value = months.value[0].month
   selectedMonthBeginingDate.value = months.value[0].createdAt
+  loading.value = false
 
-})
-
-watch(designSub, () => {
-  designSub.value[0].style.backgroundColor = "lavender"
-  designSub.value[0].style.color = "black"
-})
-watch(designMon, () => {
-  designMon.value[0].style.backgroundColor = "#356D69"
-  designMon.value[0].style.color = "lavender"
-  designMon.value[0].style.border = "1px solid lavender"
-})
-// fetch Students
-
-watch(year, async () => {
-  const StudenttQuery = query(collection(db, `students-${year.value}`))
-  const querySnapshotStudents = await getDocs(StudenttQuery)
-  querySnapshotStudents.forEach((doc) => {
-    students.value.push({ id: doc.id, ...doc.data() })
-  })
-})
-
+}
 
 //select month
 const showMonths = (month, index) => {
@@ -115,42 +130,26 @@ const showMonths = (month, index) => {
   let currentMon = designMon.value[index]
   for (let i = 0; i <= months.value.length - 1; i++) {
     if (designMon.value[i] == currentMon) {
-      currentMon.style.backgroundColor = "lavender"
-      currentMon.style.border = "1px solid #356D69"
-      currentMon.style.color = "#356D69"
-      designMon.value[i].style.backgroundColor = "#356D69"
-      designMon.value[i].style.color = "lavender"
-      designMon.value[i].style.border = "1px solid lavender"
+      designMon.value[i].classList.add('selectedMonth')
     }
     else {
-      currentMon.style.backgroundColor = "#356D69"
-      currentMon.style.border = "1px solid lavender"
-      currentMon.style.color = "lavender"
-      designMon.value[i].style.backgroundColor = "lavender"
-      designMon.value[i].style.color = "#356D69"
-      designMon.value[i].style.border = "1px solid #356D69"
+      designMon.value[i].classList.remove('selectedMonth')
     }
   }
 }
 
-
-
 // Select Subject
-
-
 const showSubject = (sub, index) => {
   selectedSubject.value = sub
   let currentSub = designSub.value[index]
   for (let i = 0; i <= subjects.value.length - 1; i++) {
     if (designSub.value[i] == currentSub) {
-      currentSub.style.color = "lavender"
-      designSub.value[i].style.backgroundColor = "lavender"
-      designSub.value[i].style.color = "black"
+      designSub.value[i].classList.add('selectedSubject')
+      designSub.value[i].classList.remove('unSelectedSubject')
     }
     else {
-      currentSub.style.color = "black"
-      designSub.value[i].style.backgroundColor = "transparent"
-      designSub.value[i].style.color = "lavender"
+      designSub.value[i].classList.remove('selectedSubject')
+      designSub.value[i].classList.add('unSelectedSubject')
     }
   }
 }
@@ -173,7 +172,6 @@ const ShowAtt = (Attendance, index) => {
 
 <template>
   <!-- FIRST HALF -->
-
   <div id="AttendancePage">
     <div class="attendanceTop">
       <Navbar />
@@ -181,7 +179,6 @@ const ShowAtt = (Attendance, index) => {
       <p class="pleaseSelect">Please select a subject below:</p>
 
       <!-- subjects -->
-
       <div class="CollegeSubjects">
         <div ref="designSub" @click="showSubject(subject.subject, index)" class="subjects"
           v-for="(subject, index) in subjects" :key="index">
@@ -191,32 +188,36 @@ const ShowAtt = (Attendance, index) => {
     </div>
 
     <!-- SECOND HALF-->
-
-    <div class="Attendancebottom">
-      <!-- months -->
-      <div class="monthsSubjects">
-        <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
-          :key="index">
-          {{ month.month }}
-        </div>
-      </div>
-
-
-      <!-- Students List -->
-
-      <div class="StudentCard">
-        <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
-          <div class="info">
-            <div class="image"></div>
-            <div class="details">
-              <span class="name">{{ student.name }}</span>
-              <span class="rollno">Roll No. -{{ student.rollNo }}</span>
-            </div>
+    <div v-if="(months.length < 1 || students.length == 0) && !loading">Sorry No Attendence For This Semester</div>
+    <div v-else-if="months.length < 1 && loading"></div>
+    <div v-else>
+      <div class="Attendancebottom">
+        <!-- months -->
+        <div class="monthsSubjects">
+          <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
+            :key="index">
+            {{ month.month }}
           </div>
-          <StudentAtt v-if="finger[index] && selectedSubject && selectedMonth" :FingerPrint="finger[index]"
-            :subjects="selectedSubject" :months="selectedMonth" :time="selectedMonthBeginingDate" />
+        </div>
+
+
+        <!-- Students List -->
+
+        <div class="StudentCard">
+          <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
+            <div class="info">
+              <div class="image"></div>
+              <div class="details">
+                <span class="name">{{ student.name }}</span>
+                <span class="rollno">Roll No. - {{ student.rollNo }}</span>
+              </div>
+            </div>
+            <StudentAtt v-if="finger[index] && selectedSubject && selectedMonth" :FingerPrint="finger[index]"
+              :subjects="selectedSubject" :months="selectedMonth" :time="selectedMonthBeginingDate" />
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -369,5 +370,27 @@ const ShowAtt = (Attendance, index) => {
 .rollno {
   font-size: 16px;
   font-weight: lighter;
+}
+
+.selectedSubject {
+  color: black;
+  background-color: lavender;
+}
+
+.unSelectedSubject {
+  color: lavender;
+  background-color: transparent;
+}
+
+.selectedMonth {
+  background-color: #356D69;
+  border: 1px solid #356D69;
+  color: lavender;
+}
+
+.unSelectedMonth {
+  background-color: #356D69;
+  border: 1px solid lavender;
+  color: lavender
 }
 </style>

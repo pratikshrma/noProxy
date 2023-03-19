@@ -96,6 +96,7 @@ async function handleUpload(e, rollno) {
     const uploadTask = storage.ref(`students-${year.value}/${file.name}`).put(file)
 
     /*
+    #FIXLater
     *****Compress the photo if they are too big will probably do that later
     */
 
