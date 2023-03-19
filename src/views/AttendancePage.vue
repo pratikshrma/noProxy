@@ -463,15 +463,22 @@ const ShowAtt = (Attendance, index) => {
 
   .StudentCard {
     flex-wrap: wrap;
-    width: 100%;
+    width: 95%;
     height: auto;
-    padding: 0 0;
+    padding: 0 .5rem;
     flex-direction: row;
-    gap: 1rem;
+    gap: 1.8rem;
   }
 
   .student {
-    width: 10rem;
+    width: 9rem;
+    scale: 0.9;
+    border-radius: 30px;
+  }
+
+  .student:hover {
+    scale: unset;
+
   }
 
   .details {
