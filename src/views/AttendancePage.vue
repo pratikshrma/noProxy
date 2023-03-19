@@ -184,23 +184,12 @@ const ShowAtt = (Attendance, index) => {
       </div>
     </div>
 
-<<<<<<< HEAD
-    <div v-if="(months.length < 1 || students.length == 0) && !loading" class="sorry">
-      <img src="/sorry 2.png" height="200" width="250">
-      Sorry No Attendence For This Semester
-    </div>
-    <div v-else-if="months.length < 1 && loading"></div>
-    <div v-else>
-      <!-- SECOND HALF-->
-      <div class="Attendancebottom">
-=======
     <!-- SECOND HALF-->
     <div class="Attendancebottom">
       <div class="StudentCard" v-if="(months.length < 1 || students.length == 0) && !loading">Sorry No Attendence For This
         Semester</div>
       <div class="StudentCard" v-else-if="months.length < 1 && loading">Loading</div>
       <div v-else>
->>>>>>> c6796da5f37f6f3cdfb7a5fb7d69b40bcdc25769
         <!-- months -->
         <div class="monthsSubjects">
           <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
