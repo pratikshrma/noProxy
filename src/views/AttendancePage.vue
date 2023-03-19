@@ -12,8 +12,8 @@ const currentSession = ref("");
 const year = ref();
 const subjects = ref([]);
 const students = ref([]);
-const designSub = ref()
-const designMon = ref()
+let designSub = ref()
+let designMon = ref()
 const months = ref([])
 let selectedMonth = ref();
 let selectedSubject = ref();
@@ -24,8 +24,9 @@ let loading = ref(true)
 watch(() => router.currentRoute.value.params, () => {
   semester.value = router.currentRoute.value.params.id
   console.log(semester.value)
+  designSub.value = null
+  designMon.value = null
 })
-
 
 watch([semester], async () => {
   subjects.value = []
@@ -37,11 +38,15 @@ watchEffect(async () => {
 })
 
 watch(designSub, () => {
-  designSub.value[0].classList.add('selectedSubject')
-  designSub.value[0].classList.remove('unSelectedSubject')
+  if (designSub.value != null) {
+    designSub.value[0].classList.add('selectedSubject')
+    designSub.value[0].classList.remove('unSelectedSubject')
+  }
 })
 watch(designMon, () => {
-  designMon.value[0].classList.add('selectedMonth')
+  if (designMon.value != null) {
+    designMon.value[0].classList.add('selectedMonth')
+  }
 })
 // fetch Students
 watch(year, async () => {
