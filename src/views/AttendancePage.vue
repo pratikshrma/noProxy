@@ -442,8 +442,8 @@ const ShowAtt = (Attendance, index) => {
     margin-left: 1rem;
     font-size: 12px;
     padding: .2rem .9rem;
-    width: 9rem;
-    height: auto;
+    width: 5rem;
+    height: 2.3rem;
     border-radius: 10px;
 
   }
