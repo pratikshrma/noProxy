@@ -3,6 +3,7 @@ import { watchEffect } from 'vue';
 import { RouterView } from 'vue-router'
 import { useAuthStore } from './stores/AuthStore';
 import { auth } from '@/firebase'
+import Navbar from './components/Navbar.vue'
 
 const authStore = useAuthStore()
 

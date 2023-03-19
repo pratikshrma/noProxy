@@ -30,7 +30,7 @@ import { RouterLink, RouterView } from 'vue-router'
     justify-content: space-evenly;
     flex-direction: column;
     height: auto;
-    margin-top: 8rem;
+    margin-top: 4rem;
 }
 
 .title {
@@ -43,6 +43,7 @@ import { RouterLink, RouterView } from 'vue-router'
     padding: 0 20rem 0 20rem;
     font-family: var(--font-face);
     margin-top: -1rem;
+
 }
 
 
@@ -76,30 +77,41 @@ import { RouterLink, RouterView } from 'vue-router'
     transition: .2s ease-in-out;
 }
 
-@media screen and (max-width:1365px) {
+@media screen and (max-width: 1410px) {
     .title {
-        font-size: 6rem;
+        font-size: 7rem;
     }
 
     .title2 {
         font-size: 1.5rem;
-        padding: 0 1rem 0 1rem;
     }
 
     .HomeButtons {
         gap: 3rem;
+    }
+}
+
+@media screen and (max-width:890px) {
+    .title {
+        font-size: 5rem;
+    }
+
+    .title2 {
+        font-size: 1rem;
+        padding: 0 1rem 0 1rem;
+    }
+
+    .HomeButtons {
+        flex-direction: column;
+        gap: 3rem;
         padding: 0 2rem;
+        align-items: center;
     }
 
     .BtnHome {
         height: 4rem;
         width: 10.5rem;
         font-size: 16.5px;
-
-    }
-
-    .applyLeave {
-        margin-top: 7rem;
     }
 }
 </style>

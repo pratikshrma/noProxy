@@ -10,7 +10,7 @@
                 </div>
             </div>
         </div>
-        <div @click="seeAttendance" class="attendance">Attendance</div>
+        <div ref="hide" @click="seeAttendance" class="attendance">Attendance</div>
     </div>
 </template>
 
@@ -27,13 +27,16 @@ const sems = [
 ]
 const showMenu = ref()
 const blackBG = ref()
+const hide = ref()
 const seeAttendance = () => {
     showMenu.value.style.display = "flex"
     blackBG.value.style.display = "block"
+    hide.value.style.display = "none"
 }
 const closeMenu = () => {
     showMenu.value.style.display = "none"
     blackBG.value.style.display = "none"
+    hide.value.style.display = "flex"
 }
 </script>
 
@@ -43,6 +46,7 @@ const closeMenu = () => {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+
 }
 
 .attendanceMenu {
@@ -94,7 +98,6 @@ const closeMenu = () => {
     height: 3rem;
     width: 7rem;
     border-radius: 15px;
-    background-color: #ff9820;
     border: 1px solid #ff9820;
     font-size: 18px;
     box-shadow: 1px 1px 10px #0d2726;
@@ -115,7 +118,19 @@ const closeMenu = () => {
     transition: .2s ease-in-out;
 }
 
-@media screen and (max-width:1365px) {
+@media screen and (max-width: 1410px) {
+    .semester {
+        padding: 0 0;
+    }
+
+    .semText {
+        font-size: 1rem;
+        padding: .5rem .5rem;
+    }
+}
+
+@media screen and (max-width:890px) {
+
     .DiffSemesters {
         position: absolute;
         flex-direction: column;
@@ -153,7 +168,7 @@ const closeMenu = () => {
         display: flex;
         font-size: .9rem;
         padding: 0 1rem;
-        margin-left: -1.9rem;
+        margin-left: -2rem;
     }
 
     .blackscreen {
@@ -165,6 +180,10 @@ const closeMenu = () => {
         width: 50%;
         height: 100vh;
         display: none;
+    }
+
+    .checkAttendance {
+        width: 57%;
     }
 }
 </style>
