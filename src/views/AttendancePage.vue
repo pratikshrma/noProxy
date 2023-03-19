@@ -187,7 +187,7 @@ const ShowAtt = (Attendance, index) => {
     <!-- SECOND HALF-->
     <div class="Attendancebottom">
       <div class="sorry" v-if="(months.length < 1 || students.length == 0) && !loading">
-        <img src="/sorry 2.png" />
+        <img src="/sorry2.png" />
         <span>No Attendence For This Semester !!</span>
       </div>
       <div class="sorry" v-else-if="months.length < 1 && loading">Loading</div>
@@ -414,7 +414,7 @@ const ShowAtt = (Attendance, index) => {
   .Attendancebottom {
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
-    margin-top: -17rem;
+    margin-top: -15rem;
     height: auto;
     min-height: 20rem;
 
@@ -432,19 +432,20 @@ const ShowAtt = (Attendance, index) => {
 
   .CollegeSubjects {
     gap: 1rem;
-    width: 30%;
+    width: 100%;
     padding: 1rem 0;
-    flex-direction: column;
-    margin-top: -8rem;
-    margin-left: 18rem;
+    overflow-x: scroll;
+    justify-content: flex-start;
   }
 
   .subjects {
-    font-size: 8px;
-    padding: .2rem .3rem;
-    width: 6rem;
+    margin-left: 1rem;
+    font-size: 12px;
+    padding: .2rem .9rem;
+    width: 9rem;
     height: auto;
     border-radius: 10px;
+
   }
 
   .monthsSubjects {
@@ -454,7 +455,7 @@ const ShowAtt = (Attendance, index) => {
   }
 
   .months {
-    font-size: 8px;
+    font-size: 14px;
     padding: .2rem .3rem;
     width: 10rem;
     height: auto;
