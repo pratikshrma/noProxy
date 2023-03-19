@@ -234,7 +234,7 @@ const ShowAtt = (Attendance, index) => {
 }
 
 .attendanceTop {
-  background-image: url(/AttendanceImage.svg);
+  background-image: url(/AttendanceImage.jpg);
   height: 36.063rem;
   background-size: cover;
   display: flex;
