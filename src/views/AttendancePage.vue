@@ -414,7 +414,7 @@ const ShowAtt = (Attendance, index) => {
   .Attendancebottom {
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
-    margin-top: -17rem;
+    margin-top: -15rem;
     height: auto;
     min-height: 20rem;
 
@@ -432,19 +432,20 @@ const ShowAtt = (Attendance, index) => {
 
   .CollegeSubjects {
     gap: 1rem;
-    width: 30%;
+    width: 100%;
     padding: 1rem 0;
-    flex-direction: column;
-    margin-top: -8rem;
-    margin-left: 18rem;
+    overflow-x: scroll;
+    justify-content: flex-start;
   }
 
   .subjects {
-    font-size: 8px;
-    padding: .2rem .3rem;
-    width: 6rem;
-    height: auto;
+    margin-left: 1rem;
+    font-size: 12px;
+    padding: .2rem .9rem;
+    width: 5rem;
+    height: 2.3rem;
     border-radius: 10px;
+
   }
 
   .monthsSubjects {
