@@ -102,11 +102,6 @@ async function fetchData() {
       months.value.push({ id: doc.id, ...doc.data() });
     });
   }
-  if (months.value.length < 1) {
-    return
-  }
-
-  // fetch Subjects
   const SubjectQuery = query(
     collection(db, "Subject"),  //#FIXLater -> Change the Subject to subject in production 
     where("semester", "==", `${semester.value}`)
@@ -116,13 +111,15 @@ async function fetchData() {
 
     subjects.value.push({ id: doc.id, ...doc.data() });
   });
-  selectedSubject.value = subjects.value[0].subject
-  selectedMonth.value = months.value[0].month
-  selectedMonthBeginingDate.value = months.value[0].createdAt
+  if (subjects.value.length != 0)
+    selectedSubject.value = subjects.value[0].subject
+  if (months.value.length != 0) {
+    selectedMonth.value = months.value[0].month
+    selectedMonthBeginingDate.value = months.value[0].createdAt
+  }
   loading.value = false
 
 }
-
 //select month
 const showMonths = (month, index) => {
   selectedMonth.value = month.month
@@ -188,10 +185,11 @@ const ShowAtt = (Attendance, index) => {
     </div>
 
     <!-- SECOND HALF-->
-    <div v-if="(months.length < 1 || students.length == 0) && !loading">Sorry No Attendence For This Semester</div>
-    <div v-else-if="months.length < 1 && loading"></div>
-    <div v-else>
-      <div class="Attendancebottom">
+    <div class="Attendancebottom">
+      <div class="StudentCard" v-if="(months.length < 1 || students.length == 0) && !loading">Sorry No Attendence For This
+        Semester</div>
+      <div class="StudentCard" v-else-if="months.length < 1 && loading">Loading</div>
+      <div v-else>
         <!-- months -->
         <div class="monthsSubjects">
           <div ref="designMon" class="months" @click="showMonths(month, index)" v-for="(month, index) in months"
