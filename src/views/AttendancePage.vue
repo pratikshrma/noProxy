@@ -414,20 +414,18 @@ const ShowAtt = (Attendance, index) => {
   .Attendancebottom {
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
-    margin-top: -15rem;
+    margin-top: -12rem;
     height: auto;
     min-height: 20rem;
 
   }
 
   .pageName {
-    font-size: 3rem;
-    margin-left: -7rem;
+    font-size: 4rem;
   }
 
   .pleaseSelect {
-    margin-left: -9rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .CollegeSubjects {
