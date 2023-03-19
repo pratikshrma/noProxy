@@ -187,7 +187,7 @@ const ShowAtt = (Attendance, index) => {
     <!-- SECOND HALF-->
     <div class="Attendancebottom">
       <div class="sorry" v-if="(months.length < 1 || students.length == 0) && !loading">
-        <img src="/sorry 2.png" />
+        <img src="/sorry2.png" />
         <span>No Attendence For This Semester !!</span>
       </div>
       <div class="sorry" v-else-if="months.length < 1 && loading">Loading</div>
