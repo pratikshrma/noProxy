@@ -320,4 +320,61 @@ watchEffect(async () => {
     font-size: 25px;
     margin-top: .7rem;
 }
+
+@media screen and (max-width:890px) {
+    .totalPresent {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    .totalPresent span {
+        font-size: 15px;
+        margin-top: .4rem;
+    }
+
+    .totalleaves {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    .totalleaves span {
+        font-size: 15px;
+        margin-top: .4rem;
+    }
+
+    .totalAbsents {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    .totalAbsents span {
+        font-size: 15px;
+        margin-top: .4rem;
+    }
+
+    .date {
+        font-size: 14px;
+    }
+
+    .present {
+        height: 1rem;
+        width: 1rem;
+        font-size: 12px;
+        padding: .2rem .2rem;
+    }
+
+    .absent {
+        height: 1rem;
+        width: 1rem;
+        font-size: 12px;
+        padding: .2rem .2rem;
+    }
+
+    .sunday {
+        height: 1rem;
+        width: 1rem;
+        font-size: 12px;
+        padding: .2rem .2rem;
+    }
+}
 </style>
