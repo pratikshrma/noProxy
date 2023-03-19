@@ -454,7 +454,7 @@ const ShowAtt = (Attendance, index) => {
   }
 
   .months {
-    font-size: 8px;
+    font-size: 14px;
     padding: .2rem .3rem;
     width: 10rem;
     height: auto;
