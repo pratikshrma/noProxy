@@ -118,7 +118,18 @@ const closeMenu = () => {
     transition: .2s ease-in-out;
 }
 
-@media screen and (max-width:1365px) {
+@media screen and (max-width: 1410px) {
+    .semester {
+        padding: 0 0;
+    }
+
+    .semText {
+        font-size: 1rem;
+        padding: .5rem .5rem;
+    }
+}
+
+@media screen and (max-width:890px) {
 
     .DiffSemesters {
         position: absolute;

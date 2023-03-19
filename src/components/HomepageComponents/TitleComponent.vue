@@ -77,7 +77,21 @@ import { RouterLink, RouterView } from 'vue-router'
     transition: .2s ease-in-out;
 }
 
-@media screen and (max-width:1365px) {
+@media screen and (max-width: 1410px) {
+    .title {
+        font-size: 7rem;
+    }
+
+    .title2 {
+        font-size: 1.5rem;
+    }
+
+    .HomeButtons {
+        gap: 3rem;
+    }
+}
+
+@media screen and (max-width:890px) {
     .title {
         font-size: 5rem;
     }

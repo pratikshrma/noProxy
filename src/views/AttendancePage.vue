@@ -187,10 +187,13 @@ const ShowAtt = (Attendance, index) => {
       </div>
     </div>
 
-    <!-- SECOND HALF-->
-    <div v-if="(months.length < 1 || students.length == 0) && !loading">Sorry No Attendence For This Semester</div>
+    <div v-if="(months.length < 1 || students.length == 0) && !loading" class="sorry">
+      <img src="/sorry 2.png" height="200" width="250">
+      Sorry No Attendence For This Semester
+    </div>
     <div v-else-if="months.length < 1 && loading"></div>
     <div v-else>
+      <!-- SECOND HALF-->
       <div class="Attendancebottom">
         <!-- months -->
         <div class="monthsSubjects">
@@ -249,6 +252,15 @@ const ShowAtt = (Attendance, index) => {
   border-top-right-radius: 80px;
 }
 
+.sorry {
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
 .pageName {
   color: lavender;
   font-size: 7rem;
@@ -261,10 +273,24 @@ const ShowAtt = (Attendance, index) => {
   display: flex;
   height: auto;
   gap: 4rem;
+  width: 98%;
   justify-content: space-evenly;
-  padding-top: 1rem;
+  padding: 1rem 3rem;
   margin-top: 2rem;
+}
 
+.subjects {
+  height: 5rem;
+  font-size: 23px;
+  padding: .5rem .5rem;
+  border-radius: 50px;
+  color: white;
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20rem;
+  text-transform: capitalize;
 }
 
 .monthsSubjects {
@@ -276,19 +302,6 @@ const ShowAtt = (Attendance, index) => {
 
 }
 
-.subjects {
-  height: 5rem;
-  font-size: 25px;
-  padding: .5rem .5rem;
-  border-radius: 50px;
-  color: white;
-  border: 1px solid white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20rem;
-  text-transform: capitalize;
-}
 
 .subjects:hover {
   scale: 1.1;
@@ -392,5 +405,30 @@ const ShowAtt = (Attendance, index) => {
   background-color: #356D69;
   border: 1px solid lavender;
   color: lavender
+}
+
+@media screen and (max-width:890px) {
+  .Attendancebottom {
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+  }
+
+  .pageName {
+    font-size: 4.5rem;
+  }
+
+  .pleaseSelect {
+    font-size: 1.5rem;
+  }
+
+  .CollegeSubjects {
+    gap: 1rem;
+  }
+
+  .subjects {
+    font-size: .5rem;
+    padding: 0 .5rem;
+    width: 10rem;
+  }
 }
 </style>
