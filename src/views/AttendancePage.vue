@@ -206,7 +206,7 @@ const ShowAtt = (Attendance, index) => {
         <div class="StudentCard">
           <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
             <div class="info">
-              <div class="image"></div>
+              <img :src="student.image" class="image" />
               <div class="details">
                 <span class="name">{{ student.name }}</span>
                 <span class="rollno">Roll No. - {{ student.rollNo }}</span>
