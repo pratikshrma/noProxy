@@ -13,12 +13,10 @@ import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vu
     
 <style scoped>
 .Navbar {
-    width: 98%;
+    width: 100%;
     height: 6.25rem;
     display: flex;
-    padding: 0 2rem;
     justify-content: flex-start;
-
 }
 
 .logo {
@@ -27,6 +25,7 @@ import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vu
     height: 4.294rem;
     margin-top: 2rem;
     margin-left: 3rem;
+
 }
 
 .logo:hover {
