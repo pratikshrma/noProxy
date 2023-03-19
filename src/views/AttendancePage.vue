@@ -471,9 +471,9 @@ const ShowAtt = (Attendance, index) => {
   }
 
   .student {
-    width: 9rem;
-    scale: 0.9;
+    width: 15rem;
     border-radius: 30px;
+    margin-left: 5rem;
   }
 
   .student:hover {
