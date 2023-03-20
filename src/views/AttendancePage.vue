@@ -366,7 +366,7 @@ const ShowAtt = (Attendance, index) => {
 .image {
   height: 5rem;
   width: 5rem;
-  border-radius: 100px;
+  border-radius: 99px;
   background-color: lavender;
 }
 
