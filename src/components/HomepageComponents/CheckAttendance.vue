@@ -9,8 +9,8 @@
                     </RouterLink>
                 </div>
             </div>
+            <img ref="hamMenu" @click="seeAttendance" src="/menu-icon2.png" class="attendance" />
         </div>
-        <div ref="hide" @click="seeAttendance" class="attendance">Attendance</div>
     </div>
 </template>
 
@@ -27,16 +27,16 @@ const sems = [
 ]
 const showMenu = ref()
 const blackBG = ref()
-const hide = ref()
+const hamMenu = ref()
 const seeAttendance = () => {
     showMenu.value.style.display = "flex"
     blackBG.value.style.display = "block"
-    hide.value.style.display = "none"
+    hamMenu.value.style.display = "none"
 }
 const closeMenu = () => {
     showMenu.value.style.display = "none"
     blackBG.value.style.display = "none"
-    hide.value.style.display = "flex"
+    hamMenu.value.style.display = "flex"
 }
 </script>
 
@@ -95,19 +95,9 @@ const closeMenu = () => {
 }
 
 .attendance {
-    height: 3rem;
-    width: 7rem;
-    border-radius: 15px;
-    border: 1px solid #ff9820;
-    font-size: 18px;
-    box-shadow: 1px 1px 10px #0d2726;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1.5rem;
-    margin-right: 5rem;
-    display: none;
+    height: 3.5rem;
+    width: 4rem;
+
 }
 
 .attendance:hover {
@@ -166,9 +156,14 @@ const closeMenu = () => {
 
     .attendance {
         display: flex;
+        position: relative;
         font-size: .9rem;
         padding: 0 1rem;
-        margin-left: -2rem;
+        margin-left: -1rem;
+    }
+
+    .attendanceMenu {
+        padding: 1rem 0;
     }
 
     .blackscreen {
@@ -183,7 +178,7 @@ const closeMenu = () => {
     }
 
     .checkAttendance {
-        width: 50%;
+        width: auto;
     }
 }
 </style>
