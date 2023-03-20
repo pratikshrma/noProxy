@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 import router from '../../router'
 import { watch } from 'vue';
 const sems = [
