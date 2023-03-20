@@ -3,19 +3,22 @@
         <div ref="blackBG" @click="closeMenu" class="blackscreen"></div>
         <div class="attendanceMenu">
             <div ref="showMenu" class="DiffSemesters">
+                <span class="menuHeading">Please select a Semester :</span>
                 <div class="semester" v-for="sem in sems" :key="sem.id">
                     <RouterLink :to="`/attendance/${sem.id}`" class="routetoAttendence">
                         <span class="semText">{{ sem.name }}</span>
                     </RouterLink>
                 </div>
             </div>
+            <img ref="hamMenu" @click="seeAttendance" src="/menu-icon2.png" class="attendance" />
         </div>
-        <div ref="hide" @click="seeAttendance" class="attendance">Attendance</div>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import router from '../../router'
+import { watch } from 'vue';
 const sems = [
     { name: "1st sem", id: 1 },
     { name: "2nd sem", id: 2 },
@@ -23,20 +26,19 @@ const sems = [
     { name: "4th sem", id: 4 },
     { name: "5th sem", id: 5 },
     { name: "6th sem", id: 6 }
-
 ]
 const showMenu = ref()
 const blackBG = ref()
-const hide = ref()
+const hamMenu = ref()
 const seeAttendance = () => {
     showMenu.value.style.display = "flex"
     blackBG.value.style.display = "block"
-    hide.value.style.display = "none"
+    hamMenu.value.style.display = "none"
 }
 const closeMenu = () => {
     showMenu.value.style.display = "none"
     blackBG.value.style.display = "none"
-    hide.value.style.display = "flex"
+    hamMenu.value.style.display = "flex"
 }
 </script>
 
@@ -95,25 +97,14 @@ const closeMenu = () => {
 }
 
 .attendance {
-    height: 3rem;
-    width: 7rem;
-    border-radius: 15px;
-    border: 1px solid #ff9820;
-    font-size: 18px;
-    box-shadow: 1px 1px 10px #0d2726;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1.5rem;
-    margin-right: 5rem;
+    height: 3.5rem;
+    width: 4rem;
     display: none;
+
 }
 
 .attendance:hover {
-    border: 1px solid white;
-    scale: 1.1;
-    box-shadow: 0px 0px 7px white;
+    scale: 1.2;
     cursor: pointer;
     transition: .2s ease-in-out;
 }
@@ -129,28 +120,38 @@ const closeMenu = () => {
     }
 }
 
+.menuHeading {
+    display: none;
+}
+
 @media screen and (max-width:890px) {
 
     .DiffSemesters {
         position: absolute;
         flex-direction: column;
+        width: 50%;
         top: -1rem;
         justify-content: flex-start;
-        gap: 0.5rem;
-        left: 50%;
-        background-color: lavender;
-        padding-top: 5rem;
+        gap: 3rem;
+        right: 0;
+        background-color: teal;
+        padding: 5rem 1rem;
         height: 44.5rem;
         display: none;
+
     }
 
-    .semester:hover {
-        scale: 1;
+    .menuHeading {
+        color: white;
+        display: block;
     }
+
 
     .semText {
-        color: black;
-        border-radius: 0px;
+        color: white;
+        border-radius: 10px;
+        padding: 1rem .5rem;
+        /* border: 1px double white; */
         border: none;
     }
 
@@ -159,16 +160,28 @@ const closeMenu = () => {
     }
 
     .semText:hover {
-        background: teal;
-        color: white;
+        scale: 1;
+        border: none;
+        background-color: rgb(255, 255, 255, 0.5);
+        border-bottom: 3px solid white;
         transition: .2s ease-in-out;
+    }
+
+    .semester:hover {
+        scale: 1;
+        padding: 0 0;
     }
 
     .attendance {
         display: flex;
+        position: relative;
         font-size: .9rem;
-        padding: 0 1rem;
-        margin-left: -2rem;
+        padding: 0 0;
+        margin-left: -1rem;
+    }
+
+    .attendanceMenu {
+        padding: 1rem 0;
     }
 
     .blackscreen {
@@ -183,7 +196,7 @@ const closeMenu = () => {
     }
 
     .checkAttendance {
-        width: 50%;
+        width: auto;
     }
 }
 </style>

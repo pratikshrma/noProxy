@@ -206,8 +206,7 @@ const ShowAtt = (Attendance, index) => {
         <div class="StudentCard">
           <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
             <div class="info">
-              <div class="image"><img :src="student.image" alt="image">
-              </div>
+              <img :src="student.image" class="image" />
               <div class="details">
                 <span class="name">{{ student.name }}</span>
                 <span class="rollno">Roll No. - {{ student.rollNo }}</span>
@@ -415,37 +414,36 @@ const ShowAtt = (Attendance, index) => {
   .Attendancebottom {
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
-    margin-top: -17rem;
+    margin-top: -12rem;
     height: auto;
     min-height: 20rem;
 
   }
 
   .pageName {
-    font-size: 3rem;
-    margin-left: -7rem;
+    font-size: 4rem;
   }
 
   .pleaseSelect {
-    margin-left: -9rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .CollegeSubjects {
     gap: 1rem;
-    width: 30%;
+    width: 100%;
     padding: 1rem 0;
-    flex-direction: column;
-    margin-top: -8rem;
-    margin-left: 18rem;
+    overflow-x: scroll;
+    justify-content: flex-start;
   }
 
   .subjects {
-    font-size: 8px;
-    padding: .2rem .3rem;
-    width: 6rem;
-    height: auto;
+    margin-left: 1rem;
+    font-size: 12px;
+    padding: .2rem .9rem;
+    width: 5rem;
+    height: 2.3rem;
     border-radius: 10px;
+
   }
 
   .monthsSubjects {

@@ -16,7 +16,7 @@ import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vu
     width: 100%;
     height: 6.25rem;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-evenly;
 }
 
 .logo {
@@ -36,6 +36,10 @@ import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vu
 @media screen and (max-width:1365px) {
     .logo {
         margin-left: 4rem;
+    }
+
+    .Navbar {
+        justify-content: space-between;
     }
 }
 </style>

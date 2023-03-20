@@ -17,7 +17,7 @@ import TitleComponent from '../components/HomepageComponents/TitleComponent.vue'
 <style scoped>
 .homeTop {
     background-image: url(/HomeImage.jpg);
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background-size: cover;
 }
