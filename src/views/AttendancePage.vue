@@ -467,12 +467,12 @@ const ShowAtt = (Attendance, index) => {
     padding: 0 .5rem;
     flex-direction: row;
     gap: 1.8rem;
+    justify-content: center;
   }
 
   .student {
     width: 15rem;
     border-radius: 30px;
-    margin-left: 5rem;
   }
 
   .student:hover {

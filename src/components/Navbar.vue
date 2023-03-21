@@ -33,13 +33,16 @@ import CheckAttendance from '../components/HomepageComponents/CheckAttendance.vu
     transition: .2s ease-in-out;
 }
 
-@media screen and (max-width:1365px) {
+@media screen and (max-width:890px) {
     .logo {
         margin-left: 4rem;
+        scale: 1;
+        transform: scale(1.5);
     }
 
     .Navbar {
         justify-content: space-between;
     }
+
 }
 </style>
