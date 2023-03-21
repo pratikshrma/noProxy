@@ -33,17 +33,22 @@ watchEffect(async () => {
     querySnapshotAttendance.forEach((doc) => {
         var timestamp = doc.data().time
         var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
-        const date = datetime.toLocaleDateString()
         RawAttendance.push({
-            date: date,
+            date: {
+                d: datetime.getDate(),
+                m: datetime.getMonth() + 1,
+                y: datetime.getFullYear()
+            },
             status: doc.data().status
         })
     })
+    console.log(RawAttendance)
     let uniqueAttendence = []
     function presentInUniqueAttendance(value) {
         for (let i = 0; i < uniqueAttendence.length; i++) {
             const e = uniqueAttendence[i];
-            if (e.date === value.date) {
+            if (e.date.d === value.date.d && e.date.m === value.date.m && e.date.y === value.date.y) {
+                // console.log(e)
                 return e;
             }
         }
@@ -67,21 +72,27 @@ watchEffect(async () => {
         querySnapshotAttendance.forEach((doc) => {
             var timestamp = doc.data().time
             var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
-            const date = datetime.toLocaleDateString()
             uniqueAttendence.push({
-                date: date,
+                date: {
+                    d: datetime.getDate(),
+                    m: datetime.getMonth(),
+                    y: datetime.getFullYear()
+                },
                 status: 'A'
             })
         })
         //now if even after the the unique attendence array is empty then there is no hope just show that no Attendence
     }
+    console.log(uniqueAttendence)
     if (uniqueAttendence.length < 1) {
         loading.value = false
         return
     }
-    const [date, month, year] = uniqueAttendence[uniqueAttendence.length - 1].date.split('/');
+    // const [date, month, year] = uniqueAttendence[uniqueAttendence.length - 1].date.split('/');
     // console.log(month, year)
-
+    let month = uniqueAttendence[uniqueAttendence.length - 1].date.m
+    let year = uniqueAttendence[uniqueAttendence.length - 1].date.y
+    console.log("Month and year ", month, year)
     //Sunday Logic
     function getAllSundays(m, y) {
         var year = y;
@@ -114,7 +125,7 @@ watchEffect(async () => {
     }
 
     const dateTime = new Date(createdAt.seconds * 1000 + createdAt.nanoseconds / 1000000)
-    let [startDate] = dateTime.toLocaleDateString().split('/');
+    let startDate = dateTime.getDate()
 
 
     //we can also do this with map will probably do that later
