@@ -42,11 +42,13 @@ watchEffect(async () => {
             status: doc.data().status
         })
     })
-    console.log(RawAttendance)
+    // console.log(RawAttendance, selectedSubject, selectedMonths)
     let uniqueAttendence = []
     function presentInUniqueAttendance(value) {
+        // console.log(value)
         for (let i = 0; i < uniqueAttendence.length; i++) {
             const e = uniqueAttendence[i];
+            // console.log("e", e, value)
             if (e.date.d === value.date.d && e.date.m === value.date.m && e.date.y === value.date.y) {
                 // console.log(e)
                 return e;
@@ -70,12 +72,13 @@ watchEffect(async () => {
         const AttendanceQuery = query(collection(db, "2022-2023"), where("subject", "==", `${selectedSubject}`), where("month", "==", `${selectedMonths}`), limit(1))
         const querySnapshotAttendance = await getDocs(AttendanceQuery)
         querySnapshotAttendance.forEach((doc) => {
+            // console.log(doc.id)
             var timestamp = doc.data().time
             var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
             uniqueAttendence.push({
                 date: {
                     d: datetime.getDate(),
-                    m: datetime.getMonth(),
+                    m: datetime.getMonth() + 1,
                     y: datetime.getFullYear()
                 },
                 status: 'A'
@@ -83,16 +86,14 @@ watchEffect(async () => {
         })
         //now if even after the the unique attendence array is empty then there is no hope just show that no Attendence
     }
-    console.log(uniqueAttendence)
     if (uniqueAttendence.length < 1) {
         loading.value = false
         return
     }
-    // const [date, month, year] = uniqueAttendence[uniqueAttendence.length - 1].date.split('/');
-    // console.log(month, year)
+    console.log(uniqueAttendence)
     let month = uniqueAttendence[uniqueAttendence.length - 1].date.m
     let year = uniqueAttendence[uniqueAttendence.length - 1].date.y
-    console.log("Month and year ", month, year)
+
     //Sunday Logic
     function getAllSundays(m, y) {
         var year = y;
@@ -138,11 +139,18 @@ watchEffect(async () => {
         L -> Leave
         */
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    // console.log(startDate, lastDate)
     for (let i = startDate; i <= lastDate; i++) {
         let currentDate = `${i}/${month}/${year}`
         const d = new Date(year, month - 1, i);
         let dayOfTheWeek = weekday[d.getDay()];
-        let result = presentInUniqueAttendance({ date: currentDate })
+        let result = presentInUniqueAttendance({
+            date: {
+                d: i,
+                m: month,
+                y: year
+            }
+        })
         if (result) {
             Attendance.value.push({
                 ...result,
@@ -156,13 +164,21 @@ watchEffect(async () => {
         } else {
             if (isASunday(i)) {
                 Attendance.value.push({
-                    date: currentDate,
+                    date: {
+                        d: i,
+                        m: month,
+                        y: year
+                    },
                     status: 'S',
                     dayOfTheWeek: dayOfTheWeek
                 })
             } else {
                 Attendance.value.push({
-                    date: currentDate,
+                    date: {
+                        d: i,
+                        m: month,
+                        y: year
+                    },
                     status: 'A',
                     dayOfTheWeek: dayOfTheWeek
                 })
@@ -192,7 +208,7 @@ watchEffect(async () => {
             <div class="block" v-for="Att in Attendance" :key="Att.id" v-if="Attendance.length > 1">
                 <div class="attendance">
                     <div class="time">
-                        <span class="date">{{ Att.date }}</span>
+                        <span class="date">{{ Att.date.d }}/{{ Att.date.m }}/{{ Att.date.y }}</span>
                         <span class="date">{{ Att.dayOfTheWeek }}</span>
                     </div>
                     <span class="absent" v-if="Att.status == 'A'">A</span>
