@@ -81,27 +81,20 @@ async function fetchData() {
       year.value = sessionYearI - 2;
     }
   });
-
+  let sessionsType;
   if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
-    const monthQuery = query(
-      collection(db, `months-${currentSession.value.current}`),
-      where("sessionType", "==", "S"), orderBy('createdAt')
-    );
-    const querySnapshotMonth = await getDocs(monthQuery);
-    querySnapshotMonth.forEach((doc) => {
-      months.value.push({ id: doc.id, ...doc.data() });
-    });
+    sessionsType = 'S';
+  } else {
+    sessionsType = 'E';
   }
-  else if (semester.value == 2 || semester.value == 4 || semester.value == 6) {
-    const monthQuery = query(
-      collection(db, `months-${currentSession.value.current}`),
-      where("sessionType", "==", "E"), orderBy('createdAt')
-    );
-    const querySnapshotMonth = await getDocs(monthQuery);
-    querySnapshotMonth.forEach((doc) => {
-      months.value.push({ id: doc.id, ...doc.data() });
-    });
-  }
+  const monthQuery = query(
+    collection(db, `months-${currentSession.value.current}`),
+    where("sessionType", "==", sessionsType), orderBy('createdAt')
+  );
+  const querySnapshotMonth = await getDocs(monthQuery);
+  querySnapshotMonth.forEach((doc) => {
+    months.value.push({ id: doc.id, ...doc.data() });
+  });
   const SubjectQuery = query(
     collection(db, "Subject"),  //#FIXLater -> Change the Subject to subject in production 
     where("semester", "==", `${semester.value}`)
