@@ -1,6 +1,6 @@
 <script setup>
 import { db } from "@/firebase";
-import { collection, getDocs, where, query } from "@firebase/firestore";
+import { collection, getDocs, where, query, orderBy } from "@firebase/firestore";
 import { ref, watchEffect, watch, onMounted } from "vue";
 import router from "../router";
 import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
@@ -85,7 +85,7 @@ async function fetchData() {
   if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
     const monthQuery = query(
       collection(db, `months-${currentSession.value.current}`),
-      where("sessionType", "==", "S")
+      where("sessionType", "==", "S"), orderBy('createdAt')
     );
     const querySnapshotMonth = await getDocs(monthQuery);
     querySnapshotMonth.forEach((doc) => {
@@ -95,7 +95,7 @@ async function fetchData() {
   else if (semester.value == 2 || semester.value == 4 || semester.value == 6) {
     const monthQuery = query(
       collection(db, `months-${currentSession.value.current}`),
-      where("sessionType", "==", "E")
+      where("sessionType", "==", "E"), orderBy('createdAt')
     );
     const querySnapshotMonth = await getDocs(monthQuery);
     querySnapshotMonth.forEach((doc) => {
