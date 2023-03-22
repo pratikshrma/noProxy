@@ -22,7 +22,6 @@ let totalAbsent = 0
 let totalLeaves = 0
 const loading = ref(true)
 
-// console.log(createdAt)
 // 
 watchEffect(async () => {
     loading.value = true
@@ -42,15 +41,11 @@ watchEffect(async () => {
             status: doc.data().status
         })
     })
-    // console.log(RawAttendance, selectedSubject, selectedMonths)
     let uniqueAttendence = []
     function presentInUniqueAttendance(value) {
-        // console.log(value)
         for (let i = 0; i < uniqueAttendence.length; i++) {
             const e = uniqueAttendence[i];
-            // console.log("e", e, value)
             if (e.date.d === value.date.d && e.date.m === value.date.m && e.date.y === value.date.y) {
-                // console.log(e)
                 return e;
             }
         }
@@ -66,13 +61,11 @@ watchEffect(async () => {
             uniqueAttendence.push(data);
         }
     }
-    // console.log(uniqueAttendence)
     if (uniqueAttendence.length < 1) {
         //Fetch a single record just for date in case a student has no attendence
         const AttendanceQuery = query(collection(db, "2022-2023"), where("subject", "==", `${selectedSubject}`), where("month", "==", `${selectedMonths}`), limit(1))
         const querySnapshotAttendance = await getDocs(AttendanceQuery)
         querySnapshotAttendance.forEach((doc) => {
-            // console.log(doc.id)
             var timestamp = doc.data().time
             var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
             uniqueAttendence.push({
@@ -90,7 +83,6 @@ watchEffect(async () => {
         loading.value = false
         return
     }
-    console.log(uniqueAttendence)
     let month = uniqueAttendence[uniqueAttendence.length - 1].date.m
     let year = uniqueAttendence[uniqueAttendence.length - 1].date.y
 
@@ -139,7 +131,6 @@ watchEffect(async () => {
         L -> Leave
         */
     const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    // console.log(startDate, lastDate)
     for (let i = startDate; i <= lastDate; i++) {
         let currentDate = `${i}/${month}/${year}`
         const d = new Date(year, month - 1, i);
@@ -187,7 +178,6 @@ watchEffect(async () => {
             }
         }
     }
-    console.log(Attendance.value)
     loading.value = false
 })
 

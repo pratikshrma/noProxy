@@ -23,7 +23,6 @@ let loading = ref(true)
 
 watch(() => router.currentRoute.value.params, () => {
   semester.value = router.currentRoute.value.params.id
-  console.log(semester.value)
   designSub.value = null
   designMon.value = null
 })
