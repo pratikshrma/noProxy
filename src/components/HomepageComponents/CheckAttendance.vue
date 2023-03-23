@@ -30,15 +30,21 @@ const sems = [
 const showMenu = ref()
 const blackBG = ref()
 const hamMenu = ref()
+const mainContainer = ref()
+
 const seeAttendance = () => {
     showMenu.value.style.display = "flex"
     blackBG.value.style.display = "block"
     hamMenu.value.style.display = "none"
+    document.body.style.height = "100%"
+    document.body.style.overflow = "hidden"
 }
 const closeMenu = () => {
     showMenu.value.style.display = "none"
     blackBG.value.style.display = "none"
     hamMenu.value.style.display = "flex"
+    document.body.style.height = "unset"
+    document.body.style.overflow = "unset"
 }
 </script>
 
@@ -48,6 +54,7 @@ const closeMenu = () => {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+    height: auto;
 
 }
 
@@ -136,9 +143,8 @@ const closeMenu = () => {
         right: 0;
         background-color: teal;
         padding: 5rem 1rem;
-        height: 44.5rem;
+        height: 100vh;
         display: none;
-
     }
 
     .menuHeading {
@@ -191,7 +197,7 @@ const closeMenu = () => {
         background-color: black;
         opacity: 0.8;
         width: 50%;
-        height: 100vh;
+        height: 100%;
         display: none;
     }
 

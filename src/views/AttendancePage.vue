@@ -268,7 +268,7 @@ const ShowAtt = (Attendance, index) => {
   display: flex;
   height: auto;
   gap: 4rem;
-  width: 98%;
+  width: 90%;
   justify-content: space-evenly;
   padding: 1rem 3rem;
   margin-top: 2rem;
@@ -314,7 +314,7 @@ const ShowAtt = (Attendance, index) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20rem;
+  width: 15rem;
   text-transform: capitalize;
 }
 
@@ -331,7 +331,7 @@ const ShowAtt = (Attendance, index) => {
   padding: 3rem 3rem;
   gap: 2rem;
   flex-wrap: wrap;
-  height: 15rem;
+  height: 30rem;
 }
 
 .student {
@@ -432,9 +432,9 @@ const ShowAtt = (Attendance, index) => {
     margin-left: 1rem;
     font-size: 12px;
     padding: .2rem .9rem;
-    width: 5rem;
+    width: 5.5rem;
     height: 2.3rem;
-    border-radius: 10px;
+    border-radius: 100px;
 
   }
 
@@ -446,10 +446,10 @@ const ShowAtt = (Attendance, index) => {
 
   .months {
     font-size: 14px;
-    padding: .2rem .3rem;
+    padding: .5rem .5rem;
     width: 10rem;
     height: auto;
-    border-radius: 10px;
+    border-radius: 100px;
   }
 
   .StudentCard {
