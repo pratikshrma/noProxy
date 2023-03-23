@@ -67,6 +67,7 @@ watchEffect(async () => {
         querySnapshotAttendance.forEach((doc) => {
             var timestamp = doc.data().time
             var datetime = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000)
+            console.log(dateTime)
             const date = datetime.toLocaleDateString()
             uniqueAttendence.push({
                 date: date,
