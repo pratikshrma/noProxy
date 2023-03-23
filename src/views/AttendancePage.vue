@@ -1,6 +1,6 @@
 <script setup>
 import { db } from "@/firebase";
-import { collection, getDocs, where, query } from "@firebase/firestore";
+import { collection, getDocs, where, query, orderBy } from "@firebase/firestore";
 import { ref, watchEffect, watch, onMounted } from "vue";
 import router from "../router";
 import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
@@ -23,7 +23,6 @@ let loading = ref(true)
 
 watch(() => router.currentRoute.value.params, () => {
   semester.value = router.currentRoute.value.params.id
-  console.log(semester.value)
   designSub.value = null
   designMon.value = null
 })
@@ -81,27 +80,20 @@ async function fetchData() {
       year.value = sessionYearI - 2;
     }
   });
-
+  let sessionsType;
   if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
-    const monthQuery = query(
-      collection(db, `months-${currentSession.value.current}`),
-      where("sessionType", "==", "S")
-    );
-    const querySnapshotMonth = await getDocs(monthQuery);
-    querySnapshotMonth.forEach((doc) => {
-      months.value.push({ id: doc.id, ...doc.data() });
-    });
+    sessionsType = 'S';
+  } else {
+    sessionsType = 'E';
   }
-  else if (semester.value == 2 || semester.value == 4 || semester.value == 6) {
-    const monthQuery = query(
-      collection(db, `months-${currentSession.value.current}`),
-      where("sessionType", "==", "E")
-    );
-    const querySnapshotMonth = await getDocs(monthQuery);
-    querySnapshotMonth.forEach((doc) => {
-      months.value.push({ id: doc.id, ...doc.data() });
-    });
-  }
+  const monthQuery = query(
+    collection(db, `months-${currentSession.value.current}`),
+    where("sessionType", "==", sessionsType), orderBy('createdAt')
+  );
+  const querySnapshotMonth = await getDocs(monthQuery);
+  querySnapshotMonth.forEach((doc) => {
+    months.value.push({ id: doc.id, ...doc.data() });
+  });
   const SubjectQuery = query(
     collection(db, "Subject"),  //#FIXLater -> Change the Subject to subject in production 
     where("semester", "==", `${semester.value}`)
