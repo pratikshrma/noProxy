@@ -19,6 +19,18 @@
 import { ref } from 'vue'
 import router from '../../router'
 import { watch } from 'vue';
+import { onMounted } from 'vue';
+watch(() => router.currentRoute.value.params, () => {
+    showMenu.value.style.display = "none"
+    blackBG.value.style.display = "none"
+    hamMenu.value.style.display = "flex"
+    document.body.style.height = "unset"
+    document.body.style.overflow = "unset"
+})
+onMounted(() => {
+    document.body.style.height = "unset"
+    document.body.style.overflow = "unset"
+})
 const sems = [
     { name: "1st sem", id: 1 },
     { name: "2nd sem", id: 2 },
