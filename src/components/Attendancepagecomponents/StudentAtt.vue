@@ -2,6 +2,7 @@
 import { collection, getDocs, where, query, orderBy, limit } from '@firebase/firestore'
 import { db } from '../../firebase'
 import { ref, watchEffect } from 'vue';
+import loadingMini from "../loadingMini.vue"
 
 const props = defineProps({
     FingerPrint: String,
@@ -192,7 +193,7 @@ watchEffect(async () => {
             <p class="totalleaves"><span> {{ totalLeaves }}</span></p>
         </div>
         <div v-if="loading">
-            <h2>Loading</h2>
+            <loadingMini />
         </div>
         <div v-else>
             <div class="block" v-for="Att in Attendance" :key="Att.id" v-if="Attendance.length > 1">

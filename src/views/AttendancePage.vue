@@ -5,6 +5,7 @@ import { ref, watchEffect, watch, computed } from "vue";
 import router from "../router";
 import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
 import Navbar from '../components/Navbar.vue'
+import loadingComponent from "../components/loadingComponent.vue"
 
 const semester = ref(router.currentRoute.value.params.id)
 const sessions = ref([]);
@@ -170,13 +171,27 @@ watch(selectedMonth, () => {
 watch(selectedSubject, () => {
   finger.value = [""]
 })
+
+const isActive = ref(false)
+const designStudent = ref()
 const ShowAtt = (Attendance, index) => {
   if (!finger.value[index]) {
     finger.value[index] = Attendance
+    for (let i = 0; i <= students.value.length - 1; i++) {
+      if (designStudent.value[i] === designStudent.value[index]) {
+        designStudent.value[i].style.height = "auto"
+      }
+    }
   }
   else {
     finger.value[index] = null
+    for (let i = 0; i <= students.value.length - 1; i++) {
+      if (designStudent.value[i] === designStudent.value[index]) {
+        designStudent.value[i].style.height = "auto"
+      }
+    }
   }
+
 }
 </script>
 
@@ -203,7 +218,9 @@ const ShowAtt = (Attendance, index) => {
         <img src="/sorry.png" />
         <span>No Attendence For This Semester !!</span>
       </div>
-      <div class="sorry" v-else-if="months.length < 1 && loading">Loading</div>
+      <div class="sorry" v-else-if="months.length < 1 && loading">
+        <loadingComponent />
+      </div>
       <div v-else>
         <!-- months -->
         <div class="monthsSubjects">
@@ -217,7 +234,8 @@ const ShowAtt = (Attendance, index) => {
         <!-- Students List -->
 
         <div class="StudentCard">
-          <div class="student" @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
+          <div ref="designStudent" class="student" :class="{ expandedStudent: isActive }"
+            @click="ShowAtt(student.fid, index)" v-for="(student, index) in students" :key="index">
             <div class="info">
               <img :src="student.image" class="image" />
               <div class="details">
@@ -348,18 +366,18 @@ const ShowAtt = (Attendance, index) => {
 
 .StudentCard {
   display: flex;
-  flex-direction: column;
   padding: 3rem 3rem;
-  gap: 2rem;
+  justify-content: center;
+  gap: 5rem;
   flex-wrap: wrap;
-  height: 30rem;
+  height: auto;
 }
 
 .student {
   background-color: #356D69;
   box-shadow: 1px 1px 4px #356D69;
   border: 1px solid white;
-  height: auto;
+  height: 5.5rem;
   width: 25rem;
   border-radius: 40px;
   padding: 1rem 1rem;
@@ -486,6 +504,7 @@ const ShowAtt = (Attendance, index) => {
   .student {
     width: 15rem;
     border-radius: 30px;
+    height: auto;
   }
 
   .student:hover {
