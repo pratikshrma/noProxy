@@ -187,7 +187,7 @@ const ShowAtt = (Attendance, index) => {
     finger.value[index] = null
     for (let i = 0; i <= students.value.length - 1; i++) {
       if (designStudent.value[i] === designStudent.value[index]) {
-        designStudent.value[i].style.height = "auto"
+        designStudent.value[i].style.height = "5rem"
       }
     }
   }
