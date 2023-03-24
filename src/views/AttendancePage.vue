@@ -1,7 +1,7 @@
 <script setup>
 import { db } from "@/firebase";
 import { collection, getDocs, where, query, orderBy } from "@firebase/firestore";
-import { ref, watchEffect, watch, onMounted } from "vue";
+import { ref, watchEffect, watch, computed } from "vue";
 import router from "../router";
 import StudentAtt from '../components/Attendancepagecomponents/StudentAtt.vue'
 import Navbar from '../components/Navbar.vue'
@@ -20,6 +20,15 @@ let selectedSubject = ref();
 let selectedMonthBeginingDate = ref();
 let finger = ref([])
 let loading = ref(true)
+let currentSessionType = ref('')
+let prevSessionType = ref(null)
+
+if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
+  currentSessionType.value = 'S';
+} else {
+  currentSessionType.value = 'E';
+}
+
 
 watch(() => router.currentRoute.value.params, () => {
   semester.value = router.currentRoute.value.params.id
@@ -28,8 +37,13 @@ watch(() => router.currentRoute.value.params, () => {
 })
 
 watch([semester], async () => {
-  subjects.value = []
-  months.value = []
+  if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
+    currentSessionType.value = 'S';
+  } else {
+    currentSessionType.value = 'E';
+  }
+  // subjects.value = []
+  // months.value = []
   fetchData()
 })
 watchEffect(async () => {
@@ -80,37 +94,44 @@ async function fetchData() {
       year.value = sessionYearI - 2;
     }
   });
-  let sessionsType;
-  if (semester.value == 1 || semester.value == 3 || semester.value == 5) {
-    sessionsType = 'S';
-  } else {
-    sessionsType = 'E';
+  if (currentSessionType.value != prevSessionType.value) {
+    months.value = []
+    const monthQuery = query(
+      collection(db, `months-${currentSession.value.current}`),
+      where("sessionType", "==", currentSessionType.value), orderBy('createdAt')
+    );
+    const querySnapshotMonth = await getDocs(monthQuery);
+    querySnapshotMonth.forEach((doc) => {
+      months.value.push({ id: doc.id, ...doc.data() });
+    });
+    prevSessionType.value = currentSessionType.value
   }
-  const monthQuery = query(
-    collection(db, `months-${currentSession.value.current}`),
-    where("sessionType", "==", sessionsType), orderBy('createdAt')
-  );
-  const querySnapshotMonth = await getDocs(monthQuery);
-  querySnapshotMonth.forEach((doc) => {
-    months.value.push({ id: doc.id, ...doc.data() });
-  });
   const SubjectQuery = query(
     collection(db, "Subject"),  //#FIXLater -> Change the Subject to subject in production 
     where("semester", "==", `${semester.value}`)
   );
+  let tempSubjects = []
+  subjects.value = []
   const querySnapshotSubject = await getDocs(SubjectQuery);
   querySnapshotSubject.forEach((doc) => {
-
-    subjects.value.push({ id: doc.id, ...doc.data() });
+    const subject = { id: doc.id, ...doc.data() }
+    tempSubjects.push(subject);
   });
-  if (subjects.value.length != 0)
+  if (tempSubjects.length != 0) {
+    //sometimes if you change semester too quickly even before the pevious semester subjects were 
+    //even loaded then there is a chance that the pevious sem subjects would merge with the 
+    //current sem subjects 
+    //and that is why this filter is being used.
+    tempSubjects.filter(sub => sub.semester === semester.value)
+    subjects.value = tempSubjects
     selectedSubject.value = subjects.value[0].subject
+  }
   if (months.value.length != 0) {
     selectedMonth.value = months.value[0].month
     selectedMonthBeginingDate.value = months.value[0].createdAt
   }
-  loading.value = false
 
+  loading.value = false
 }
 //select month
 const showMonths = (month, index) => {
